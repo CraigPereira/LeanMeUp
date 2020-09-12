@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Landing from "./components/Landing";
+import Dashboard from "./components/Dashboard";
+import BmiInfo from "./components/BmiInfo";
+import BmiInput from "./components/BmiInput";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <div className="App">
+          <Route exact path="/" component={Landing} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/bmiinfo" component={BmiInfo} />
+          <Route path="/bmiinput" component={BmiInput} />
+        </div>
+      </Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
