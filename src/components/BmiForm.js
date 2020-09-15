@@ -11,49 +11,61 @@ const BmiForm = () => {
   const [userHeightFt, setUserHeightFt] = useState(false);
   const [userHeightIn, setUserHeightIn] = useState(false);
   const [userBmi, setUserBmi] = useState(null);
+  const [resultCircle, setResultCircle] = useState(null);
+  const [bmiText, setBmiText] = useState(null);
   const changeWeightUnit = (e) => {
     e.preventDefault();
-    if (weightUnits === "kgs" && weightUnitName === "pounds") {
-      setWeightUnits("lbs");
-      setWeightUnitName("kilograms");
-    } else {
-      setWeightUnits("kgs");
-      setWeightUnitName("pounds");
-    }
+    return weightUnits === "kgs"
+      ? (setWeightUnits("lbs"),
+        setWeightUnitName("kilograms"),
+        setUserWeight(false))
+      : (setWeightUnits("kgs"),
+        setWeightUnitName("pounds"),
+        setUserWeight(false));
   };
   const changeHeightUnit = (e) => {
     e.preventDefault();
-    if (heightUnits[0] === "ft") {
-      setHeightUnits("cm");
-      setHeightUnitName("feet");
-    } else {
-      setHeightUnits(["ft", "in"]);
-      setHeightUnitName("centimeters");
-    }
+    return heightUnits[0] === "ft"
+      ? (setHeightUnits("cm"),
+        setHeightUnitName("feet"),
+        setUserHeightFt(false),
+        setUserHeightIn(false))
+      : (setHeightUnits(["ft", "in"]),
+        setHeightUnitName("centimeters"),
+        setUserHeightCm(false));
   };
-  const ConvertAndCalculate = () => {
-    let formulaWeight = 0;
-    let formulaHeight = 0;
-    let bmi = null;
-    if (userWeight && weightUnits === "kgs") {
-      formulaWeight = userWeight;
+  const convertAndCalculate = () => {
+    let formulaWeight = weightUnits === "kgs" ? userWeight : userWeight * 0.45;
+    let formulaHeight =
+      heightUnits === "cm"
+        ? userHeightCm / 100
+        : Math.round(userHeightFt * 30.48 + userHeightIn * 2.54) / 100;
+    return parseFloat((formulaWeight / Math.pow(formulaHeight, 2)).toFixed(1));
+  };
+  const displayBmiRange = (bmi) => {
+    console.log("displayBMIrange invoked");
+    if (bmi < 18.5) {
+      setBmiText(`Looks like you're underweight (< 18.5)`);
+      setResultCircle("bmi-yellow");
+    } else if (bmi >= 18.5 && bmi <= 24.9) {
+      setBmiText(`Way to go! you're within the normal range (18.5-24.9)`);
+      setResultCircle("bmi-green");
+    } else if (bmi >= 25 && bmi <= 29.9) {
+      setBmiText(`Looks like you're overweight (25-29.9)`);
+      setResultCircle("bmi-yellow");
+    } else if (bmi >= 30 && bmi <= 34.9) {
+      setBmiText(`Looks like you're obese (30-34.9)`);
+      setResultCircle("bmi-orange");
     } else {
-      formulaWeight = (userWeight * 0.45359237).toFixed(2);
+      setBmiText(`Looks like you're extremely obese (35 <)`);
+      setResultCircle("bmi-red");
     }
-    if (userHeightCm && heightUnits === "cm") {
-      formulaHeight = userHeightCm / 100;
-    } else {
-      let heightCm = userHeightFt * 30.48 + userHeightIn * 2.54;
-      formulaHeight = (heightCm / 100).toFixed(2);
-    }
-    bmi = (formulaWeight / Math.pow(formulaHeight, 2)).toFixed(1);
     setUserBmi(bmi);
-    console.log(`BMI:${bmi}`);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(userWeight, userHeightFt, userHeightIn, userHeightCm);
-    ConvertAndCalculate();
+    const bmi = convertAndCalculate();
+    displayBmiRange(bmi);
   };
   return (
     <div className="bmi-form-wrap">
@@ -118,15 +130,19 @@ const BmiForm = () => {
         </div>
         <button onClick={changeHeightUnit}>{heightUnitName}</button>
       </form>
-      <Link to={`${userBmi}`} className="button-styles" onClick={handleSubmit}>
-        Calculate
-      </Link>
+      {((userWeight && userHeightCm) ||
+        (userWeight && userHeightFt && userHeightIn)) && (
+        <Link className="button-styles" onClick={handleSubmit}>
+          Calculate
+        </Link>
+      )}
       {userBmi && (
         <div className="bmi-display-right">
           <h2>Your BMI</h2>
-          <div className="bmi-circle">
+          <div className={resultCircle}>
             <div className="div">{userBmi}</div>
           </div>
+          <p>{bmiText}</p>
         </div>
       )}
     </div>
