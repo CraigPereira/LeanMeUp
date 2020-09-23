@@ -1,11 +1,16 @@
+:root {
+  --highlight-color: crimson;
+  --text-color: #ffffff;
+  --bg-color: #212121;
+  --cals-data: rgb(45, 150, 150);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Nunito", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #212121;
+  background: var(--bg-color);
 }
 
 code {
@@ -15,18 +20,19 @@ code {
 
 ::-moz-selection {
   /* Code for Firefox */
-  background: crimson;
+  background: var(--highlight-color);
 }
 
 ::selection {
-  background: crimson;
+  background: var(--highlight-color);
 }
 
+/* Global button styles */
 .button-styles {
   list-style-type: none;
   text-decoration: none;
   font-size: 25px;
-  color: white;
+  color: var(--text-color);
   border: 2px solid #ffffff;
   border-radius: 41px;
   margin: 0 auto;
@@ -34,26 +40,44 @@ code {
 }
 
 .button-styles:hover {
-  color: #212121;
-  background: white;
-  transition: 1s;
+  color: var(--highlight-color);
+  border: 2px solid var(--highlight-color);
+  /* background: var(--text-color); */
+  transition: 0.5s;
 }
+/* End of Global button styles */
 
-/* Landing component & Bmiinfo styles */
-.landing-wrap {
+/* grid styles */
+.landing-wrap,
+.bmi-info-wrap,
+.cals-info-wrap,
+.dashboard-wrap,
+.bmi-form-wrap,
+.cals-form-wrap,
+.cals-result-wrap {
+  color: var(--text-color);
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-auto-rows: minmax(50px, auto);
 }
 
-.landing-wrap .button-styles {
+.landing-wrap .button-styles,
+.bmi-info-wrap .button-styles,
+.cals-info-wrap .button-styles {
   grid-row: 7 / 8;
   grid-column: 2 / 4;
   /* margin-top: 180px; */
 }
+/* End of grid styles */
+
+.cals-form-wrap {
+  color: var(--text-color);
+}
+
+/* Landing component & Bmiinfo styles */
 
 .landing-wrap p {
-  color: white;
+  color: var(--text-color);
   font-size: 50px;
   margin-top: 70px;
   grid-row: 2 / 3;
@@ -62,7 +86,7 @@ code {
 
 .landing-wrap h1,
 .bmi-info-wrap h1 {
-  color: white;
+  color: var(--text-color);
   font-size: 50px;
   grid-row: 1 / 2;
   grid-column: 2 / 5;
@@ -72,36 +96,37 @@ code {
 
 /* Bmi info styles */
 
-.bmi-info-wrap {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: minmax(50px, auto);
-}
-
 .bmi-info-wrap p {
   font-size: 30px;
-  color: white;
+  color: var(--text-color);
   grid-row: 3 / 4;
   grid-column: 2 / 8;
 }
 
-.bmi-info-wrap .button-styles {
-  grid-row: 7 / 8;
-  grid-column: 2 / 4;
+/* End of bmi info styles */
+
+/* Cals info styles */
+
+.cals-info-wrap h1 {
+  color: var(--text-color);
+  font-size: 50px;
+  grid-row: 1 / 2;
+  grid-column: 2 / 6;
 }
 
-/* End of bmi info styles */
+.cals-info-wrap p {
+  font-size: 30px;
+  color: var(--text-color);
+  grid-row: 3 / 4;
+  grid-column: 2 / 8;
+}
+
+/* End of Cals info styles */
 
 /* Dashboard styles */
 
-.dashboard-wrap {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: minmax(50px, auto);
-}
-
 .dashboard-wrap h1 {
-  color: white;
+  color: var(--text-color);
   font-size: 70px;
   grid-row: 1 / 2;
   grid-column: 3 / 11;
@@ -119,7 +144,7 @@ code {
 
 .dashboard-wrap .round-button-styles {
   font-size: 30px;
-  color: white;
+  color: var(--text-color);
   border: 2px solid white;
   list-style-type: none;
   text-decoration: none;
@@ -131,13 +156,14 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 1s;
+  transition: 0.5s;
 }
 
 .round-button-styles:hover {
-  color: #212121;
-  background: white;
-  transform: rotate(360deg);
+  color: var(--highlight-color);
+  /* background: var(--highlight-color); */
+  border: 2px solid var(--highlight-color);
+  /* transform: rotate(360deg); */
 }
 
 .dash-back {
@@ -147,13 +173,10 @@ code {
 
 /* End of Dashboard component styles */
 
-/* bmi-input styles */
+/* bmi-form styles */
 
-.bmi-form-wrap {
-  color: white;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: minmax(50px, auto);
+.outter-wrapper {
+  height: 100vh;
 }
 
 .bmi-form-wrap form {
@@ -162,29 +185,36 @@ code {
   grid-row-start: 2;
 }
 
-.bmi-form-wrap form input[type="number"] {
+.bmi-form-wrap form input[type="number"],
+.cals-form-wrap form input[type="number"] {
   font-size: 20px;
   background: none;
   border: none;
   width: 50%;
   border-bottom: 2px solid rgba(255, 255, 255, 0.4);
   margin: 10px;
-  color: white;
+  color: var(--text-color);
   outline: 0;
   transition: 300ms;
 }
 
-.bmi-form-wrap form input:focus {
-  border-bottom: 2px solid skyblue;
+.bmi-form-wrap form input:focus,
+.cals-form-wrap form input:focus {
+  border-bottom: 2px solid var(--highlight-color);
 }
 
-.bmi-form-wrap form button {
+.bmi-form-wrap form button,
+.cals-form-wrap form button {
   background: none;
   border: none;
-  color: white;
+  color: var(--text-color);
   outline: 0;
   margin-bottom: 40px;
   cursor: pointer;
+}
+
+.bmi-form-wrap .back-btn {
+  grid-column: 8 / 10;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -216,7 +246,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .bmi-green,
 .bmi-orange,
 .bmi-red {
-  color: white;
+  color: var(--text-color);
   font-size: 90px;
   list-style-type: none;
   text-decoration: none;
@@ -234,13 +264,13 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 5px solid yellow;
 }
 .bmi-green {
-  border: 5px solid green;
+  border: 5px solid #4bff41;
 }
 .bmi-orange {
-  border: 5px solid #ff4d00;
+  border: 5px solid #ff7f16;
 }
 .bmi-red {
-  border: 5px solid crimson;
+  border: 5px solid rgb(255, 0, 0);
 }
 
 .bmi-display-right h2 {
@@ -252,3 +282,133 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* end of bmi-input styles */
+
+/* Cals form styles */
+
+.cals-form-wrap form {
+  grid-column: 2 / 4;
+  font-size: 20px;
+}
+
+.cals-form-wrap .act-div {
+  grid-column: 6 / 12;
+  grid-row: 1 / 2;
+  font-size: 20px;
+}
+
+.cals-form-wrap .act-div .act-inner-div {
+  margin: 15px auto;
+  font-size: 1em;
+}
+
+.cals-form-wrap a {
+  grid-row-start: 3 / 4;
+  grid-column: 8 / 10;
+  height: 35px;
+}
+
+.goal-radio {
+  display: flex;
+  grid-column: 2 / 5;
+  align-items: center;
+  font-size: 18px;
+}
+.gender-radio {
+  display: flex;
+  grid-column: 2 / 5;
+  align-items: center;
+  font-size: 18px;
+}
+.gender-radio > *,
+.goal-radio > * {
+  padding: 10px;
+}
+
+.cals-form-wrap .act-div .act-inner-div .radioContainer,
+.cals-form-wrap .gender-radio .radioContainer,
+.cals-form-wrap .goal-radio .radioContainer {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  padding-left: 30px;
+}
+
+.radioContainer input {
+  display: none;
+}
+
+.radioContainer .circle {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+  position: absolute;
+  left: 0;
+  top: 3px;
+  border-radius: 50%;
+}
+.gender-radio .radioContainer .circle,
+.goal-radio .radioContainer .circle {
+  top: 12px;
+}
+
+.radioContainer:hover .circle {
+  background-color: rgb(145, 145, 145);
+}
+
+.radioContainer input:checked + .circle {
+  background-color: crimson;
+}
+.radioContainer input:checked + .circle:after {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background-color: white;
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* End of Cals form styles */
+
+/* Cals output styles */
+
+.cals-result-wrap ul {
+  grid-row-start: 2;
+  grid-column: 2 / 10;
+}
+.cals-result-wrap p {
+  margin: 10px;
+}
+
+.cals-result-wrap img {
+  grid-row: 2 / 5;
+  grid-column: 11 / 12;
+  height: 500px;
+}
+
+.cals-result-wrap ul li {
+  font-size: 25px;
+  padding: 5px;
+}
+
+.cals-result-wrap .d-flex {
+  grid-row: 4 / 7;
+  grid-column: 2 / 8;
+  flex-flow: column;
+  font-size: 22px;
+}
+
+.cals-result-wrap a {
+  grid-row: 6 / 7;
+  grid-column: 11 / 12;
+}
+
+.cals-result-wrap span {
+  color: var(--cals-data);
+}
+
+/* Cals output styles */

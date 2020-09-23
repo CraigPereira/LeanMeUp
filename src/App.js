@@ -1,32 +1,29 @@
 import React from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { Route, Switch } from "react-router-dom";
 import Landing from "./components/Landing";
 import Dashboard from "./components/Dashboard";
 import BmiInfo from "./components/BmiInfo";
 import BmiInput from "./components/BmiInput";
+import CalsInfo from "./components/CalsInfo";
+import CalsInput from "./components/CalsInput";
+import UserDataContextProvider from "./contexts/UserDataContext";
+import CalsResult from "./components/CalsResult";
 
 const App = () => {
-  const location = useLocation();
   return (
-    <>
-      <AnimatePresence exitBeforeEnter>
-        <Switch location={location} key={location.key}>
-          <Route exact path="/">
-            <Landing />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/bmiinfo">
-            <BmiInfo />
-          </Route>
-          <Route path="/bmiinput">
-            <BmiInput />
-          </Route>
+    <div className="App">
+      <UserDataContextProvider>
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/bmiinfo" component={BmiInfo} />
+          <Route exact path="/bmiinput" component={BmiInput} />
+          <Route exact path="/calsinfo" component={CalsInfo} />
+          <Route exact path="/calsinput" component={CalsInput} />
+          <Route exact path="/calsresult" component={CalsResult} />
         </Switch>
-      </AnimatePresence>
-    </>
+      </UserDataContextProvider>
+    </div>
   );
 };
 

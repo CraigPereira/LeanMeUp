@@ -1,39 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserDataContext } from "../contexts/UserDataContext";
 import { Link } from "react-router-dom";
 
 const BmiForm = () => {
-  const [weightUnits, setWeightUnits] = useState("kgs");
-  const [weightUnitName, setWeightUnitName] = useState("pounds");
-  const [heightUnits, setHeightUnits] = useState(["ft", "in"]);
-  const [heightUnitName, setHeightUnitName] = useState("centimeters");
-  const [userWeight, setUserWeight] = useState(false);
-  const [userHeightCm, setUserHeightCm] = useState(false);
-  const [userHeightFt, setUserHeightFt] = useState(false);
-  const [userHeightIn, setUserHeightIn] = useState(false);
-  const [userBmi, setUserBmi] = useState(null);
+  const {
+    weightUnits,
+    weightUnitName,
+    heightUnits,
+    heightUnitName,
+    userWeight,
+    setUserWeight,
+    userHeightCm,
+    setUserHeightCm,
+    userHeightFt,
+    setUserHeightFt,
+    userHeightIn,
+    setUserHeightIn,
+    changeWeightUnit,
+    changeHeightUnit,
+  } = useContext(UserDataContext);
   const [resultCircle, setResultCircle] = useState(null);
   const [bmiText, setBmiText] = useState(null);
-  const changeWeightUnit = (e) => {
-    e.preventDefault();
-    return weightUnits === "kgs"
-      ? (setWeightUnits("lbs"),
-        setWeightUnitName("kilograms"),
-        setUserWeight(false))
-      : (setWeightUnits("kgs"),
-        setWeightUnitName("pounds"),
-        setUserWeight(false));
-  };
-  const changeHeightUnit = (e) => {
-    e.preventDefault();
-    return heightUnits[0] === "ft"
-      ? (setHeightUnits("cm"),
-        setHeightUnitName("feet"),
-        setUserHeightFt(false),
-        setUserHeightIn(false))
-      : (setHeightUnits(["ft", "in"]),
-        setHeightUnitName("centimeters"),
-        setUserHeightCm(false));
-  };
+  const [outputNo, setOutputNo] = useState(null);
+
   const convertAndCalculate = () => {
     let formulaWeight = weightUnits === "kgs" ? userWeight : userWeight * 0.45;
     let formulaHeight =
@@ -42,8 +31,15 @@ const BmiForm = () => {
         : Math.round(userHeightFt * 30.48 + userHeightIn * 2.54) / 100;
     return parseFloat((formulaWeight / Math.pow(formulaHeight, 2)).toFixed(1));
   };
+  const animateBmi = (bmi) => {
+    let output = 0;
+    const timer = setInterval(() => {
+      return parseFloat(output.toFixed(1)) === bmi
+        ? clearInterval(timer)
+        : ((output = output + 0.1), setOutputNo(output.toFixed(1)));
+    }, 1);
+  };
   const displayBmiRange = (bmi) => {
-    console.log("displayBMIrange invoked");
     if (bmi < 18.5) {
       setBmiText(`Looks like you're underweight (< 18.5)`);
       setResultCircle("bmi-yellow");
@@ -60,91 +56,103 @@ const BmiForm = () => {
       setBmiText(`Looks like you're extremely obese (35 <)`);
       setResultCircle("bmi-red");
     }
-    setUserBmi(bmi);
+    // setUserBmi(bmi);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     const bmi = convertAndCalculate();
+    animateBmi(bmi);
     displayBmiRange(bmi);
   };
   return (
-    <div className="bmi-form-wrap">
-      <form onSubmit={handleSubmit}>
-        <h3>Weight</h3>
-        <div className="d-flex">
-          <input
-            type="number"
-            id="weight"
-            name="weight"
-            value={userWeight}
-            min="0"
-            step=".01"
-            onChange={(e) => {
-              setUserWeight(e.target.value);
-            }}
-          />
-          <label htmlFor="weight">{weightUnits}</label>
-        </div>
-        <button onClick={changeWeightUnit}>{weightUnitName}</button>
-        <h3>Height</h3>
-        <div className="d-flex">
-          {heightUnits[0] === "ft" && (
+    <div className="outter-wrapper">
+      <div className="bmi-form-wrap">
+        <form onSubmit={handleSubmit}>
+          <h3>Weight</h3>
+          <div className="d-flex">
             <input
               type="number"
-              id="height"
-              name="height"
+              id="weight"
+              name="weight"
+              value={userWeight}
               min="0"
               step=".01"
               onChange={(e) => {
-                setUserHeightFt(e.target.value);
+                setUserWeight(e.target.value);
               }}
             />
-          )}
-          <label htmlFor="">{heightUnits[0] === "ft" && heightUnits[0]}</label>
-          {heightUnits[0] === "ft" && (
-            <input
-              type="number"
-              id="height"
-              name="height"
-              min="0"
-              step=".01"
-              onChange={(e) => {
-                setUserHeightIn(e.target.value);
-              }}
-            />
-          )}
-          <label htmlFor="">{heightUnits[0] === "ft" && heightUnits[1]}</label>
-          {heightUnits === "cm" && (
-            <input
-              type="number"
-              id="height"
-              name="height"
-              min="0"
-              step=".01"
-              onChange={(e) => {
-                setUserHeightCm(e.target.value);
-              }}
-            />
-          )}
-          <label htmlFor="">{heightUnits === "cm" && heightUnits}</label>
-        </div>
-        <button onClick={changeHeightUnit}>{heightUnitName}</button>
-      </form>
-      {((userWeight && userHeightCm) ||
-        (userWeight && userHeightFt && userHeightIn)) && (
-        <Link className="button-styles" onClick={handleSubmit}>
-          Calculate
-        </Link>
-      )}
-      {userBmi && (
-        <div className="bmi-display-right">
-          <h2>Your BMI</h2>
-          <div className={resultCircle}>
-            <div className="div">{userBmi}</div>
+            <label htmlFor="weight">{weightUnits}</label>
           </div>
-          <p>{bmiText}</p>
-        </div>
-      )}
+          <button onClick={changeWeightUnit}>{weightUnitName}</button>
+          <h3>Height</h3>
+          <div className="d-flex">
+            {heightUnits[0] === "ft" && (
+              <input
+                type="number"
+                id="height"
+                name="height"
+                min="0"
+                step=".01"
+                onChange={(e) => {
+                  setUserHeightFt(e.target.value);
+                }}
+              />
+            )}
+            <label htmlFor="">
+              {heightUnits[0] === "ft" && heightUnits[0]}
+            </label>
+            {heightUnits[0] === "ft" && (
+              <input
+                type="number"
+                id="height"
+                name="height"
+                min="0"
+                step=".01"
+                onChange={(e) => {
+                  setUserHeightIn(e.target.value);
+                }}
+              />
+            )}
+            <label htmlFor="">
+              {heightUnits[0] === "ft" && heightUnits[1]}
+            </label>
+            {heightUnits === "cm" && (
+              <input
+                type="number"
+                id="height"
+                name="height"
+                min="0"
+                step=".01"
+                onChange={(e) => {
+                  setUserHeightCm(e.target.value);
+                }}
+              />
+            )}
+            <label htmlFor="">{heightUnits === "cm" && heightUnits}</label>
+          </div>
+          <button onClick={changeHeightUnit}>{heightUnitName}</button>
+        </form>
+        {((userWeight && userHeightCm) ||
+          (userWeight && userHeightFt && userHeightIn)) && (
+          <Link to="" className="button-styles" onClick={handleSubmit}>
+            Calculate
+          </Link>
+        )}
+        {outputNo && (
+          <div className="bmi-display-right">
+            <h2>Your BMI</h2>
+            <div className={resultCircle}>
+              <div className="div">{outputNo}</div>
+            </div>
+            <p>{bmiText}</p>
+          </div>
+        )}
+        {outputNo && (
+          <Link to="/dashboard" className="button-styles back-btn">
+            Back
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
