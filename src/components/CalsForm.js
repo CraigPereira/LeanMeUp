@@ -1,6 +1,23 @@
 import React, { useContext } from "react";
 import { UserDataContext } from "../contexts/UserDataContext";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const entryVariants = {
+  hidden: {
+    x: 100,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 130,
+    },
+  },
+};
 
 const CalsForm = () => {
   const {
@@ -30,7 +47,12 @@ const CalsForm = () => {
   } = useContext(UserDataContext);
   return (
     <div className="cals-form-wrap">
-      <form onSubmit={handleSubmit}>
+      <motion.form
+        onSubmit={handleSubmit}
+        variants={entryVariants}
+        animate="visible"
+        initial="hidden"
+      >
         <h3>Weight</h3>
         <div className="d-flex">
           <input
@@ -50,7 +72,7 @@ const CalsForm = () => {
           {heightUnits[0] === "ft" && (
             <input
               type="number"
-              id="height"
+              id="height-ft"
               name="height"
               value={userHeightFt}
               min="0"
@@ -62,7 +84,7 @@ const CalsForm = () => {
           {heightUnits[0] === "ft" && (
             <input
               type="number"
-              id="height"
+              id="height-in"
               name="height"
               value={userHeightIn}
               min="0"
@@ -97,8 +119,13 @@ const CalsForm = () => {
             onChange={(e) => setUserAge(e.target.value)}
           />
         </div>
-      </form>
-      <div className="gender-radio">
+      </motion.form>
+      <motion.div
+        className="gender-radio"
+        variants={entryVariants}
+        animate="visible"
+        initial="hidden"
+      >
         <h3>Gender</h3>
         <label htmlFor="Male" className="radioContainer">
           <input
@@ -122,8 +149,13 @@ const CalsForm = () => {
           />
           F<span className="circle"></span>
         </label>
-      </div>
-      <div className="goal-radio">
+      </motion.div>
+      <motion.div
+        className="goal-radio"
+        variants={entryVariants}
+        animate="visible"
+        initial="hidden"
+      >
         <h3>Goal</h3>
         <label htmlFor="MG" className="radioContainer">
           <input
@@ -149,14 +181,19 @@ const CalsForm = () => {
           Weight loss
           <span className="circle"></span>
         </label>
-      </div>
+      </motion.div>
       {((userWeight && userHeightCm && userAge) ||
         (userWeight && userHeightFt && userHeightIn && userAge)) && (
         <Link to="/calsresult" className="button-styles">
           Calculate
         </Link>
       )}
-      <div className="act-div">
+      <motion.div
+        className="act-div"
+        variants={entryVariants}
+        animate="visible"
+        initial="hidden"
+      >
         <h3>Activiy Level</h3>
         <div className="act-inner-div">
           <label htmlFor="1.2" className="radioContainer">
@@ -232,7 +269,7 @@ const CalsForm = () => {
             <span className="circle"></span>
           </label>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

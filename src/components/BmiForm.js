@@ -1,6 +1,38 @@
 import React, { useState, useContext } from "react";
 import { UserDataContext } from "../contexts/UserDataContext";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const displayVariants = {
+  hidden: {
+    x: 100,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 130,
+    },
+  },
+};
+
+const formVariants = {
+  hidden: {
+    x: -100,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.2,
+      type: "spring",
+      stiffness: 130,
+    },
+  },
+};
 
 const BmiForm = () => {
   const {
@@ -56,18 +88,28 @@ const BmiForm = () => {
       setBmiText(`Looks like you're extremely obese (35 <)`);
       setResultCircle("bmi-red");
     }
-    // setUserBmi(bmi);
+  };
+  const scrollDown = () => {
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 1);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     const bmi = convertAndCalculate();
     animateBmi(bmi);
     displayBmiRange(bmi);
+    scrollDown();
   };
   return (
     <div className="outter-wrapper">
       <div className="bmi-form-wrap">
-        <form onSubmit={handleSubmit}>
+        <motion.form
+          onSubmit={handleSubmit}
+          variants={formVariants}
+          animate="visible"
+          initial="hidden"
+        >
           <h3>Weight</h3>
           <div className="d-flex">
             <input
@@ -131,7 +173,7 @@ const BmiForm = () => {
             <label htmlFor="">{heightUnits === "cm" && heightUnits}</label>
           </div>
           <button onClick={changeHeightUnit}>{heightUnitName}</button>
-        </form>
+        </motion.form>
         {((userWeight && userHeightCm) ||
           (userWeight && userHeightFt && userHeightIn)) && (
           <Link to="" className="button-styles" onClick={handleSubmit}>
@@ -139,13 +181,18 @@ const BmiForm = () => {
           </Link>
         )}
         {outputNo && (
-          <div className="bmi-display-right">
+          <motion.div
+            className="bmi-display-right"
+            variants={displayVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <h2>Your BMI</h2>
             <div className={resultCircle}>
               <div className="div">{outputNo}</div>
             </div>
             <p>{bmiText}</p>
-          </div>
+          </motion.div>
         )}
         {outputNo && (
           <Link to="/dashboard" className="button-styles back-btn">

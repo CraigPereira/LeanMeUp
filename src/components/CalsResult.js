@@ -1,6 +1,49 @@
 import React, { useContext, useEffect } from "react";
 import { UserDataContext } from "../contexts/UserDataContext";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const listVariants = {
+  hidden: {
+    y: -100,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.4,
+      type: "spring",
+      stiffness: 130,
+    },
+  },
+};
+
+const paraVariants = {
+  hidden: {
+    y: 100,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.4,
+      type: "spring",
+      stiffness: 130,
+    },
+  },
+};
+
+const imgVariants = {
+  visible: {
+    rotate: [2, -2],
+    transition: {
+      duration: 1.5,
+      yoyo: Infinity,
+    },
+  },
+};
 
 const CalsResult = () => {
   const {
@@ -19,7 +62,7 @@ const CalsResult = () => {
     <div className="cals-result-wrap">
       {" "}
       <span></span>
-      <ul>
+      <motion.ul variants={listVariants} animate="visible" initial="hidden">
         <li>
           Basal Metabolic Rate (BMR): <span>{userBmr}</span>
         </li>
@@ -44,8 +87,13 @@ const CalsResult = () => {
         <li>
           Calories from Carbs & Fat: <span>{userRemainingCals} kcal</span>
         </li>
-      </ul>
-      <div className="d-flex">
+      </motion.ul>
+      <motion.div
+        className="d-flex"
+        variants={paraVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <p>
           Your Basal Metabolic Rate (BMR) is the amount of calories you would
           burn if you were asleep all day
@@ -57,11 +105,16 @@ const CalsResult = () => {
           Try to hit your daily Calorie goal & macro targets (protein, fats &
           carbs) as consistently as possible for the best results
         </p>
-      </div>
+      </motion.div>
       <Link to="/calsinput" className="button-styles">
         Back
       </Link>
-      <img src={require("../images/ohp.png")} alt="guy doing an OHP" />
+      <motion.img
+        src={require("../images/healthy-food.png")}
+        alt="guy doing an OHP"
+        variants={imgVariants}
+        animate="visible"
+      />
     </div>
   );
 };

@@ -18,10 +18,24 @@ const paraVariants = {
   },
 };
 
+const spinTransition = {
+  loop: Infinity,
+  duration: 20,
+  ease: "linear",
+};
+
 const Landing = () => {
   return (
     <div className="landing-wrap">
       <h1>Lean me up</h1>
+      <motion.img
+        src={require("../images/LMU-Logo.png")}
+        alt="Lean-me-up-logo"
+        animate={{ rotate: 360 }}
+        transition={spinTransition}
+        height="474"
+        width="474"
+      />
       <motion.p variants={paraVariants} initial="hidden" animate="visible">
         Lean me up simplifies complex nutritional math for you
       </motion.p>
