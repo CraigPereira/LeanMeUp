@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/LeanMeUp/static/css/main.4906a384.chunk.css",
+    "main.js": "/LeanMeUp/static/js/main.bedfd9b1.chunk.js",
+    "main.js.map": "/LeanMeUp/static/js/main.bedfd9b1.chunk.js.map",
+    "runtime-main.js": "/LeanMeUp/static/js/runtime-main.4ddacbe1.js",
+    "runtime-main.js.map": "/LeanMeUp/static/js/runtime-main.4ddacbe1.js.map",
+    "static/js/2.1c44eb64.chunk.js": "/LeanMeUp/static/js/2.1c44eb64.chunk.js",
+    "static/js/2.1c44eb64.chunk.js.map": "/LeanMeUp/static/js/2.1c44eb64.chunk.js.map",
+    "index.html": "/LeanMeUp/index.html",
+    "precache-manifest.a2b7972e5cafe1c9486a58ed873fa8c1.js": "/LeanMeUp/precache-manifest.a2b7972e5cafe1c9486a58ed873fa8c1.js",
+    "service-worker.js": "/LeanMeUp/service-worker.js",
+    "static/css/main.4906a384.chunk.css.map": "/LeanMeUp/static/css/main.4906a384.chunk.css.map",
+    "static/js/2.1c44eb64.chunk.js.LICENSE.txt": "/LeanMeUp/static/js/2.1c44eb64.chunk.js.LICENSE.txt",
+    "static/media/LMU-Logo.png": "/LeanMeUp/static/media/LMU-Logo.1244b4e4.png",
+    "static/media/crunch-1.png": "/LeanMeUp/static/media/crunch-1.33039a69.png",
+    "static/media/food-pyramid.png": "/LeanMeUp/static/media/food-pyramid.1c2b94d0.png",
+    "static/media/healthy-food.png": "/LeanMeUp/static/media/healthy-food.5091057c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4ddacbe1.js",
+    "static/js/2.1c44eb64.chunk.js",
+    "static/css/main.4906a384.chunk.css",
+    "static/js/main.bedfd9b1.chunk.js"
+  ]
+}
