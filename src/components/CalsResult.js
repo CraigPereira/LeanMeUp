@@ -106,7 +106,7 @@ const CalsResult = () => {
           carbs) as consistently as possible for the best results
         </p>
       </motion.div>
-      <Link to="/calsinput" className="button-styles">
+      <Link to="/dashboard" className="button-styles">
         Back
       </Link>
       <motion.img
