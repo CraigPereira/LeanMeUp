@@ -460,7 +460,7 @@ code {
 .cals-form-wrap form button {
   background: none;
   border: none;
-  color: var(--text-color);
+  color: var(--highlight-color);
   outline: 0;
   margin-bottom: 40px;
   cursor: pointer;
