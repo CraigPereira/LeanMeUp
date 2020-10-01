@@ -440,6 +440,7 @@ code {
 
 .bmi-form-wrap form input[type="number"],
 .cals-form-wrap form input[type="number"] {
+  -moz-appearance: textfield;
   font-size: 20px;
   background: none;
   border: none;
