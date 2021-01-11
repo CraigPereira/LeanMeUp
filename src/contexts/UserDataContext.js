@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const UserDataContext = createContext();
 
-const UserDataContextProvider = (props) => {
+const UserDataContextProvider = ({ children }) => {
   const [weightUnits, setWeightUnits] = useState("kgs");
   const [weightUnitName, setWeightUnitName] = useState("pounds");
   const [heightUnits, setHeightUnits] = useState(["ft", "in"]);
@@ -23,6 +23,7 @@ const UserDataContextProvider = (props) => {
   const [userFatReq, setUserFatReq] = useState(0);
   const [userCarbReq, setUserCarbReq] = useState(0);
   const [userGoalCals, setUserGoalCals] = useState(0);
+
   const changeWeightUnit = (e) => {
     e.preventDefault();
     return weightUnits === "kgs"
@@ -33,6 +34,7 @@ const UserDataContextProvider = (props) => {
         setWeightUnitName("pounds"),
         setUserWeight(false));
   };
+
   const changeHeightUnit = (e) => {
     e.preventDefault();
     return heightUnits[0] === "ft"
@@ -47,6 +49,7 @@ const UserDataContextProvider = (props) => {
   const handleGenderRadioChange = (e) => setUserGender(e.target.value);
   const handlePALRadioChange = (e) => setUserPAL(e.target.value);
   const handleGoalRadioChange = (e) => setUserGoal(e.target.value);
+
   const convertUnits = () => {
     let formulaWeight = weightUnits === "kgs" ? userWeight : userWeight * 0.45;
     let formulaHeight =
@@ -55,6 +58,7 @@ const UserDataContextProvider = (props) => {
         : Math.round(userHeightFt * 30.48 + userHeightIn * 2.54);
     return [formulaWeight, formulaHeight];
   };
+
   const calculateBmr = () => {
     const [formulaWeight, formulaHeight] = convertUnits();
     return userGender === "M"
@@ -71,7 +75,9 @@ const UserDataContextProvider = (props) => {
           4.676 * userAge
         ).toFixed(2);
   };
+
   const calculateTdee = (bmr) => (bmr * userPAL).toFixed(2);
+
   const Protein = () => {
     const [formulaWeight] = convertUnits();
     const proteinGoal = Math.round(formulaWeight * 2.2 * 0.75);
@@ -85,6 +91,7 @@ const UserDataContextProvider = (props) => {
     const fatReq = (remainingCals / 9).toFixed(2);
     return [remainingCals, carbReq, fatReq];
   };
+
   const goalCals = (tdee) => {
     const tdeeFloat = parseFloat(tdee);
     return userGoal === "MG"
@@ -93,7 +100,6 @@ const UserDataContextProvider = (props) => {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
     const bmr = calculateBmr();
     setUserBmr(bmr);
     const tdee = calculateTdee(bmr);
@@ -151,7 +157,7 @@ const UserDataContextProvider = (props) => {
         userGoalCals,
       }}
     >
-      {props.children}
+      {children}
     </UserDataContext.Provider>
   );
 };
