@@ -1,10 +1,10 @@
 import React from "react";
 import CalsForm from "./CalsForm";
 
-const CalsInput = () => {
+const CalsInput = (props) => {
   return (
     <div className="Cals-input-wrap">
-      <CalsForm />
+      <CalsForm {...props} />
     </div>
   );
 };

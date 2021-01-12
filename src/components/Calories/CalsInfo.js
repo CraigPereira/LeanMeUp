@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { paraVariants, imgVariants } from "../Variants/CalsInfoVariants";
+import { paraVariants, imgVariants } from "../../Variants/CalsInfoVariants";
 
-const CalsInfo = () => {
+const CalsInfo = (props) => {
   return (
     <div className="cals-info-wrap">
       <h1>Calories & Macros</h1>
@@ -15,11 +15,11 @@ const CalsInfo = () => {
       <motion.img
         variants={imgVariants}
         animate="visible"
-        src={require("../images/food-pyramid.png")}
+        src={require("../../images/food-pyramid.png")}
         alt="Food pyramid illustration"
       />
 
-      <Link to="/calsinput" className="button-styles">
+      <Link to={`${props.match.url}/input`} className="button-styles">
         Let's Go
       </Link>
     </div>

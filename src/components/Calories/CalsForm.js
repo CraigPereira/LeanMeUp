@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { UserDataContext } from "../contexts/UserDataContext";
+import { UserDataContext } from "../../contexts/UserDataContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { entryVariants } from "../Variants/CalsFormVariants";
+import { entryVariants } from "../../Variants/CalsFormVariants";
 
-const CalsForm = () => {
+const CalsForm = (props) => {
   const {
     weightUnits,
     weightUnitName,
@@ -169,7 +169,7 @@ const CalsForm = () => {
       </motion.div>
       {((userWeight && userHeightCm && userAge) ||
         (userWeight && userHeightFt && userHeightIn && userAge)) && (
-        <Link to="/calsresult" className="button-styles">
+        <Link to={`${props.match.url}/result`} className="button-styles">
           Calculate
         </Link>
       )}

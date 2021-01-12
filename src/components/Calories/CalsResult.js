@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { UserDataContext } from "../contexts/UserDataContext";
+import { UserDataContext } from "../../contexts/UserDataContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   listVariants,
   paraVariants,
   imgVariants,
-} from "../Variants/CalsResultVariants";
+} from "../../Variants/CalsResultVariants";
 
 const CalsResult = () => {
   const {
@@ -78,7 +78,7 @@ const CalsResult = () => {
         Back
       </Link>
       <motion.img
-        src={require("../images/healthy-food.png")}
+        src={require("../../images/healthy-food.png")}
         alt="guy doing an OHP"
         variants={imgVariants}
         animate="visible"

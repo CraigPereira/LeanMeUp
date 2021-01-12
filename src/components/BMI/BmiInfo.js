@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { paraVariants, imgVariants } from "../Variants/BmiInfoVariants";
+import { paraVariants, imgVariants } from "../../Variants/BmiInfoVariants";
 
-const BmiInfo = () => {
+const BmiInfo = (props) => {
   return (
     <div className="bmi-info-wrap">
       <h1>What is BMI?</h1>
@@ -15,10 +15,10 @@ const BmiInfo = () => {
       <motion.img
         variants={imgVariants}
         animate="visible"
-        src={require("../images/crunch-1.png")}
+        src={require("../../images/crunch-1.png")}
         alt="Man doing crunches"
       />
-      <Link to="/bmiinput" className="button-styles">
+      <Link to={`${props.match.url}/input`} className="button-styles">
         Let's Go
       </Link>
     </div>

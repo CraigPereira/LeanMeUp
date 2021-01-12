@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { UserDataContext } from "../contexts/UserDataContext";
+import { UserDataContext } from "../../contexts/UserDataContext";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { displayVariants, formVariants } from "../Variants/BmiFormVariants";
+import { displayVariants, formVariants } from "../../Variants/BmiFormVariants";
 
 const BmiForm = () => {
   const {
