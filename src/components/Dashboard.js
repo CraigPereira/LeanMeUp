@@ -18,7 +18,7 @@ const Dashboard = () => {
         animate="visible"
         className="dash-bmi"
       >
-        <Link to="/bmiinfo" className="round-button-styles">
+        <Link to="/bmi" className="round-button-styles">
           Calculate BMI
         </Link>
       </motion.div>
@@ -27,7 +27,7 @@ const Dashboard = () => {
         variants={circle2Variants}
         animate="visible"
       >
-        <Link to="/calsinfo" className="round-button-styles dash-cals">
+        <Link to="/calories" className="round-button-styles dash-cals">
           {" "}
           Calculate Calories
         </Link>

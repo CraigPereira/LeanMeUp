@@ -66,7 +66,7 @@ code {
 }
 
 .bmi-info-wrap .button-styles {
-  grid-row: 7 / 8;
+  grid-row: 5 / 6;
   grid-column: 2 / 4;
   /* margin-top: 180px; */
 }
@@ -82,7 +82,7 @@ code {
   color: var(--text-color);
   font-size: 50px;
   margin-top: 70px;
-  grid-row: 2 / 3;
+  grid-row: 3 / 4;
   grid-column: 2 / 8;
 }
 
@@ -90,19 +90,19 @@ code {
 .bmi-info-wrap h1 {
   color: var(--text-color);
   font-size: 50px;
-  grid-row: 1 / 2;
+  grid-row: 2 / 3;
   grid-column: 2 / 5;
 }
 
 .landing-wrap img {
   height: 390;
   width: 478;
-  grid-column: 8 / 11;
-  grid-row: 2 / 4;
+  grid-column: 9 / 12;
+  grid-row: 3 / 4;
 }
 
 .landing-wrap .button-styles {
-  grid-row: 4 / 5;
+  grid-row: 6 / 7;
   grid-column: 2 / 4;
 }
 
@@ -175,7 +175,7 @@ code {
 
 .bmi-info-wrap img {
   grid-column: 9 / 11;
-  grid-row: 3 / 5;
+  grid-row: 4 / 6;
 }
 
 @media screen and (max-width: 1200px) {
@@ -259,7 +259,7 @@ code {
 .cals-info-wrap h1 {
   color: var(--text-color);
   font-size: 50px;
-  grid-row: 1 / 2;
+  grid-row: 2 / 3;
   grid-column: 2 / 6;
 }
 
@@ -271,7 +271,7 @@ code {
 }
 .cals-info-wrap img {
   grid-column: 9 / 11;
-  grid-row: 3 / 5;
+  grid-row: 5 / 7;
 }
 
 .cals-info-wrap .button-styles {
@@ -314,8 +314,8 @@ code {
   color: var(--text-color);
   font-size: 70px;
   grid-row: 1 / 2;
-  grid-column: 3 / 11;
-  margin-left: 40px;
+  grid-column: 4 / 12;
+  /* margin-left: 40px; */
 }
 
 .dashboard-wrap .dash-bmi {
@@ -351,8 +351,9 @@ code {
 }
 
 .dash-back {
-  grid-row: 4 / 5;
-  grid-column: 6 / 8;
+  margin-left: 20px;
+  grid-row: 8 / 9;
+  grid-column: 6 / 7;
 }
 
 @media screen and (max-width: 1200px) {
@@ -405,6 +406,7 @@ code {
     width: 200px;
   }
   .dash-back {
+    margin: 0;
     font-size: 20px;
   }
 }
@@ -612,12 +614,13 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .cals-form-wrap form {
   grid-column: 2 / 4;
+  grid-row: 2 / 3;
   font-size: 20px;
 }
 
 .cals-form-wrap .act-div {
   grid-column: 6 / 12;
-  grid-row: 1 / 2;
+  grid-row: 2 / 3;
   font-size: 20px;
 }
 
@@ -627,20 +630,22 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .cals-form-wrap a {
-  grid-row-start: 3 / 4;
-  grid-column: 8 / 10;
+  grid-row: 5 / 6;
+  grid-column: 6 / 8;
   height: 35px;
 }
 
 .goal-radio {
   display: flex;
   grid-column: 2 / 5;
+  grid-row: 5 / 6;
   align-items: center;
   font-size: 18px;
 }
 .gender-radio {
   display: flex;
   grid-column: 2 / 5;
+  grid-row: 4 / 5;
   align-items: center;
   font-size: 18px;
 }
