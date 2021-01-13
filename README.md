@@ -2,7 +2,7 @@
 
 ‘Lean me up’ is a platform that simplifies complex nutritional math for you.
 
-## It will calculate (based on your goal)
+### It will calculate (based on your goal)
 
     * Basal Metabolic Rate (BMR)
     * Total Daily Energy Expenditure (TDEE),
@@ -10,6 +10,6 @@
     * Macro split,
     * etc
 
-## It also includes a Body Mass Index (BMI) Calculator
+### It also includes a Body Mass Index (BMI) Calculator
 
-## Live Preview: (https://lean-me-up.netlify.app/)
+### Live Preview: (https://lean-me-up.netlify.app/)
