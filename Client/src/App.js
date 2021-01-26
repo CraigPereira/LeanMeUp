@@ -7,6 +7,7 @@ import Calories from "./components/Calories/Calories";
 import UserDataContextProvider from "./contexts/UserDataContext.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Signup from "./components/Signup.jsx";
+import Login from "./components/Login.jsx";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route path="/bmi" component={Bmi} />
           <Route path="/calories" component={Calories} />

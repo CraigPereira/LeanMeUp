@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { paraVariants, spinTransition } from "../Variants/LandingVariants";
+import { LmuLogoSvg } from "../constants/SVGs";
 import { Palette } from "../constants/Palette";
 
 const Landing = () => {
