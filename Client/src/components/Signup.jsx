@@ -1,45 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Palette } from "../constants/Palette";
+import axios from "../Axios/baseUrl";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
 
 const { primary, text, card, background, placeholder } = Palette;
-
-const quotes = [
-  {
-    quote:
-      "If you want to turn a vision into reality, you have to give 100% and never stop believing in your dream",
-    author: "Arnold Schwarzenegger",
-  },
-  {
-    quote:
-      "Everybody wants to be a bodybuilder, but don’t nobody want to lift no heavy-ass weights",
-    author: "Ronnie Coleman",
-  },
-  {
-    quote: "You can't out train a bad diet",
-    author: "",
-  },
-];
 
 const boltStyles = { width: "20px", height: "25px", fill: "#58c2b1" };
 
 const backStyles = { fill: `${text}`, width: "27px" };
 
-//generating random quote
-const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
 const Signup = ({ history }) => {
+  const [randomQuote, setRandomQuote] = useState({});
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  //Fetch Quote on Mount
+  useEffect(() => {
+    fetchQuote();
+  }, []);
+
+  const fetchQuote = async () => {
+    //GET request to the API to fetch a random quote
+    const quote = await axios.get("api/quote/");
+    setRandomQuote(quote.data[0]);
+  };
+
+  const createUser = async (userData) => {
+    //POST request to the API to sign up a new user
+    try {
+      const res = await axios.post("api/signup", userData);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userName && userEmail && userPassword === confirmPassword) {
+      const userData = {
+        name: userName,
+        email: userEmail,
+        password: userPassword,
+      };
+      createUser(userData);
+    }
+  };
+
   return (
     <MainWrap>
       <InnerRow>
         <LeftSide>
           <Card>
-            <SignupForm>
+            <SignupForm onSubmit={handleSubmit}>
               <Heading>Signup</Heading>
               <UnderLineInput
                 type="text"
-                defaultValue=""
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 name="name"
                 placeholder="Your Name"
                 autoComplete="none"
@@ -47,7 +68,8 @@ const Signup = ({ history }) => {
               />
               <UnderLineInput
                 type="email"
-                defaultValue=""
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
                 name="email"
                 placeholder="Your Email"
                 autoComplete="none"
@@ -55,21 +77,23 @@ const Signup = ({ history }) => {
               />
               <UnderLineInput
                 type="password"
-                defaultValue=""
+                value={userPassword}
                 name="password"
+                onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="Password"
                 autoComplete="none"
                 required
               />
               <UnderLineInput
                 type="password"
-                defaultValue=""
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 autoComplete="on"
                 required
               />
-              <SignupButton>
+              <SignupButton onClick={handleSubmit}>
                 <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
                 Signup
               </SignupButton>

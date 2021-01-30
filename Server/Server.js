@@ -3,9 +3,18 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const authRoutes = require("./Routes/authRoutes");
+const quoteRoutes = require("./Routes/quoteRoutes");
 
 //Initialize Express app
 const app = express();
+
+//Parse any json data from request it into a js object
+app.use(express.json());
+
+//Enables a cookie method on the response object, making it easier to use cookies
+app.use(cookieParser());
 
 //Cors to prevent CORS errors
 app.use(cors({ credentials: true }));
@@ -23,18 +32,21 @@ const Listen = () => {
 
 //Connect to MongoDB
 const dbURI = process.env.dbURI;
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+};
+
 mongoose
-  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(dbURI, options)
   .then((result) => {
-    console.log("Successfully Connected to MongoDB");
+    console.log("Successfully Connected to MongoDB Atlas");
     Listen();
   })
   .catch((err) => console.error(err));
 
-app.use((req, res, next) => {
-  const { method, path, hostname } = req;
-  console.log(`New ${method} Request made to path ${path} on ${hostname}`);
-  next();
-});
-
+//Routes
 app.get("/", (req, res) => res.send(`Hello there`));
+app.use("/api", authRoutes);
+app.use("/api/quote", quoteRoutes);

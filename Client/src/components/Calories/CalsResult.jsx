@@ -21,7 +21,9 @@ const CalsResult = () => {
     handleSubmit,
   } = useContext(UserDataContext);
 
-  useEffect(() => handleSubmit(), []);
+  useEffect(() => {
+    handleSubmit();
+  }, []);
 
   const userTargets = [
     { name: "Basal Metabolic Rate (BMR):", value: userBmr },
