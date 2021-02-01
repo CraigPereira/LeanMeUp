@@ -8,6 +8,7 @@ import UserDataContextProvider from "./contexts/UserDataContext.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Signup from "./components/Signup.jsx";
 import Login from "./components/Login.jsx";
+import UserDashboard from "./components/UserDashboard.jsx";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dash" component={UserDashboard} />
           <Route path="/bmi" component={Bmi} />
           <Route path="/calories" component={Calories} />
           <Route component={NotFound} />

@@ -46,8 +46,6 @@ code {
   color: var(--highlight-color);
   border: 2px solid var(--highlight-color);
   /* background: var(--text-color); */
-
-  transform: translate(20px);
 }
 /* End of Global button styles */
 

@@ -153,7 +153,6 @@ const BackButton = styled(Link)`
   :hover {
     color: ${primary};
     border: 2px solid ${primary};
-    transform: translate(20px);
   }
 
   margin-left: 20px;

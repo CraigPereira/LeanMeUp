@@ -51,7 +51,6 @@ const ButtonCSS = css`
   :hover {
     color: ${primary};
     border: 2px solid ${primary};
-    transform: translate(20px);
   }
 `;
 

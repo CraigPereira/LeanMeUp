@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Palette } from "../constants/Palette";
 import axios from "../Axios/baseUrl";
+import {
+  nameValidation,
+  passValidation,
+  emailValidation,
+} from "../constants/ValidationObjects";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
+import { useForm } from "react-hook-form";
 
 const { primary, text, card, background, placeholder } = Palette;
 
@@ -12,10 +18,7 @@ const backStyles = { fill: `${text}`, width: "27px" };
 
 const Signup = ({ history }) => {
   const [randomQuote, setRandomQuote] = useState({});
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const { register, handleSubmit, watch, errors } = useForm();
 
   //Fetch Quote on Mount
   useEffect(() => {
@@ -33,67 +36,48 @@ const Signup = ({ history }) => {
     try {
       const res = await axios.post("api/signup", userData);
       console.log(res.data);
+      history.push("/dash");
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (userName && userEmail && userPassword === confirmPassword) {
-      const userData = {
-        name: userName,
-        email: userEmail,
-        password: userPassword,
-      };
-      createUser(userData);
-    }
-  };
+  const onSubmit = (data) => createUser(data);
 
   return (
     <MainWrap>
       <InnerRow>
         <LeftSide>
-          <Card>
-            <SignupForm onSubmit={handleSubmit}>
+          <Card errors={errors}>
+            <SignupForm onSubmit={handleSubmit(onSubmit)}>
               <Heading>Signup</Heading>
               <UnderLineInput
                 type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+                ref={register(nameValidation)}
                 name="name"
                 placeholder="Your Name"
                 autoComplete="none"
-                required
               />
+              {errors.name && <ErrorMsg>{errors.name.message}</ErrorMsg>}
               <UnderLineInput
-                type="email"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
+                type="text"
+                ref={register(emailValidation)}
                 name="email"
                 placeholder="Your Email"
                 autoComplete="none"
-                required
               />
+              {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
               <UnderLineInput
                 type="password"
-                value={userPassword}
+                ref={register(passValidation)}
                 name="password"
-                onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="Password"
-                autoComplete="none"
-                required
-              />
-              <UnderLineInput
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                name="confirmPassword"
-                placeholder="Confirm Password"
                 autoComplete="on"
-                required
               />
-              <SignupButton onClick={handleSubmit}>
+              {errors.password && (
+                <ErrorMsg>{errors.password.message}</ErrorMsg>
+              )}
+              <SignupButton>
                 <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
                 Signup
               </SignupButton>
@@ -149,7 +133,15 @@ const RightSide = styled.div`
 const Card = styled.div`
   box-sizing: border-box;
   width: 401px;
-  height: 613px;
+  height: ${({ errors }) => {
+    return Object.keys(errors).length === 1
+      ? "525px"
+      : Object.keys(errors).length === 2
+      ? "530px"
+      : Object.keys(errors).length === 3
+      ? "560px"
+      : "510px";
+  }};
   background: ${card};
   display: flex;
   flex-direction: column;
@@ -226,7 +218,7 @@ const UnderLineInput = styled.input`
   padding-bottom: 3px;
   width: 249px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.4);
-  margin: 30px 0;
+  margin: 25px 0;
   color: ${text};
   outline: 0;
   transition: 300ms;
@@ -238,4 +230,11 @@ const UnderLineInput = styled.input`
   ::placeholder {
     color: ${placeholder};
   }
+`;
+
+const ErrorMsg = styled.div`
+  box-sizing: border-box;
+  width: 249px;
+  font-size: 12px;
+  color: #df3d3d;
 `;
