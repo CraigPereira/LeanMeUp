@@ -11,13 +11,23 @@ const backStyles = { fill: `${text}`, width: "32px" };
 
 const UserDashboard = ({ history }) => {
   const data = [
-    { id: 1, title: "Calculate", svg: LmuBoltSvg(svgStyles) },
-    { id: 2, title: "My Stats", svg: StatsSvg(svgStyles) },
+    {
+      id: 1,
+      title: "Calculate",
+      svg: LmuBoltSvg(svgStyles),
+      clicked: () => history.push("/dashboard"),
+    },
+    {
+      id: 2,
+      title: "My Stats",
+      svg: StatsSvg(svgStyles),
+      clicked: () => history.push("/stats"),
+    },
     { id: 3, title: "Edit Profile", svg: pencilSvg(svgStyles) },
   ];
 
   const Cards = data.map((item) => (
-    <Card key={item.id}>
+    <Card key={item.id} onClick={item.clicked}>
       <CardInner>
         <span>{item.svg}</span>
         <Title>{item.title}</Title>

@@ -32,6 +32,6 @@ const MainWrap = styled.div`
 `;
 
 const Logo = styled(motion.img)`
-  height: 250px;
-  width: 250px;
+  height: 400px;
+  width: 400px;
 `;

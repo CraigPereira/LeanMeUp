@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound.jsx";
 import Signup from "./components/Signup.jsx";
 import Login from "./components/Login.jsx";
 import UserDashboard from "./components/UserDashboard.jsx";
+import StatsContainer from "./components/UserStats/StatsContainer.jsx";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/dash" component={UserDashboard} />
+          <Route exact path="/stats" component={StatsContainer} />
           <Route path="/bmi" component={Bmi} />
           <Route path="/calories" component={Calories} />
           <Route component={NotFound} />

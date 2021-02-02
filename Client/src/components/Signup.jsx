@@ -8,6 +8,7 @@ import {
   emailValidation,
 } from "../constants/ValidationObjects";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
+import Loading from "./Loader/Loading.jsx";
 import { useForm } from "react-hook-form";
 
 const { primary, text, card, background, placeholder } = Palette;
@@ -18,7 +19,8 @@ const backStyles = { fill: `${text}`, width: "27px" };
 
 const Signup = ({ history }) => {
   const [randomQuote, setRandomQuote] = useState({});
-  const { register, handleSubmit, watch, errors } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const { register, handleSubmit, errors } = useForm();
 
   //Fetch Quote on Mount
   useEffect(() => {
@@ -34,67 +36,75 @@ const Signup = ({ history }) => {
   const createUser = async (userData) => {
     //POST request to the API to sign up a new user
     try {
+      setIsLoading(true);
       const res = await axios.post("api/signup", userData);
       console.log(res.data);
       history.push("/dash");
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
   const onSubmit = (data) => createUser(data);
 
   return (
-    <MainWrap>
-      <InnerRow>
-        <LeftSide>
-          <Card errors={errors}>
-            <SignupForm onSubmit={handleSubmit(onSubmit)}>
-              <Heading>Signup</Heading>
-              <UnderLineInput
-                type="text"
-                ref={register(nameValidation)}
-                name="name"
-                placeholder="Your Name"
-                autoComplete="none"
-              />
-              {errors.name && <ErrorMsg>{errors.name.message}</ErrorMsg>}
-              <UnderLineInput
-                type="text"
-                ref={register(emailValidation)}
-                name="email"
-                placeholder="Your Email"
-                autoComplete="none"
-              />
-              {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
-              <UnderLineInput
-                type="password"
-                ref={register(passValidation)}
-                name="password"
-                placeholder="Password"
-                autoComplete="on"
-              />
-              {errors.password && (
-                <ErrorMsg>{errors.password.message}</ErrorMsg>
-              )}
-              <SignupButton>
-                <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
-                Signup
-              </SignupButton>
-              <BackIconDiv onClick={() => history.push("/")}>
-                {backOSvg(backStyles)}
-              </BackIconDiv>
-            </SignupForm>
-          </Card>
-        </LeftSide>
-        <RightSide>
-          <QuoteWrap>
-            <Quote>"{randomQuote.quote}"</Quote>
-            <AuthorName>- {randomQuote.author}</AuthorName>
-          </QuoteWrap>
-        </RightSide>
-      </InnerRow>
-    </MainWrap>
+    <div>
+      {!isLoading ? (
+        <MainWrap>
+          <InnerRow>
+            <LeftSide>
+              <Card errors={errors}>
+                <SignupForm onSubmit={handleSubmit(onSubmit)}>
+                  <Heading>Signup</Heading>
+                  <UnderLineInput
+                    type="text"
+                    ref={register(nameValidation)}
+                    name="name"
+                    placeholder="Your Name"
+                    autoComplete="none"
+                  />
+                  {errors.name && <ErrorMsg>{errors.name.message}</ErrorMsg>}
+                  <UnderLineInput
+                    type="text"
+                    ref={register(emailValidation)}
+                    name="email"
+                    placeholder="Your Email"
+                    autoComplete="none"
+                  />
+                  {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
+                  <UnderLineInput
+                    type="password"
+                    ref={register(passValidation)}
+                    name="password"
+                    placeholder="Password"
+                    autoComplete="on"
+                  />
+                  {errors.password && (
+                    <ErrorMsg>{errors.password.message}</ErrorMsg>
+                  )}
+                  <SignupButton>
+                    <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
+                    Signup
+                  </SignupButton>
+                  <BackIconDiv onClick={() => history.push("/")}>
+                    {backOSvg(backStyles)}
+                  </BackIconDiv>
+                </SignupForm>
+              </Card>
+            </LeftSide>
+            <RightSide>
+              <QuoteWrap>
+                <Quote>"{randomQuote.quote}"</Quote>
+                <AuthorName>- {randomQuote.author}</AuthorName>
+              </QuoteWrap>
+            </RightSide>
+          </InnerRow>
+        </MainWrap>
+      ) : (
+        <Loading />
+      )}
+    </div>
   );
 };
 
