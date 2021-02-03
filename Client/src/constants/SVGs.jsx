@@ -75,3 +75,58 @@ export const pencilSvg = (customStyles) => {
     </svg>
   );
 };
+
+export const InfoCircle = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="19"
+      height="19"
+      viewBox="0 0 19 19"
+    >
+      <text
+        id="i"
+        transform="translate(8 14)"
+        fill="#fff"
+        fontSize="13"
+        fontFamily="Nunito-Regular, Nunito"
+      >
+        <tspan x="0" y="0">
+          i
+        </tspan>
+      </text>
+      <g
+        id="Ellipse_3"
+        data-name="Ellipse 3"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1"
+      >
+        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+        <circle cx="9.5" cy="9.5" r="9" fill="none" />
+      </g>
+      <text
+        id="i-2"
+        data-name="i"
+        transform="translate(8 14)"
+        fill="#fff"
+        fontSize="13"
+        fontFamily="Nunito-Regular, Nunito"
+      >
+        <tspan x="0" y="0">
+          i
+        </tspan>
+      </text>
+      <g
+        id="Ellipse_4"
+        data-name="Ellipse 4"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1"
+      >
+        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+        <circle cx="9.5" cy="9.5" r="9" fill="none" />
+      </g>
+    </svg>
+  );
+};

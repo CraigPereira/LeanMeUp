@@ -9,7 +9,14 @@ const { primary, text, card, background, placeholder } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
 
 const StatsContainer = ({ history }) => {
-  const [isOverview, setIsOverview] = useState(true);
+  const [isOverview, setIsOverview] = useState(!true);
+
+  const handleBackClick = () => {
+    if (isOverview) history.push("/dash");
+    else setIsOverview((prevState) => !prevState);
+  };
+
+  const handleForwardClick = () => setIsOverview((prevState) => !prevState);
 
   return (
     <MainWrap>
@@ -18,12 +25,19 @@ const StatsContainer = ({ history }) => {
           <Heading>My Stats</Heading>
         </HeadingRow>
         <MiddleRow>
-          {isOverview ? <StatsOverview /> : <StatsDetailed />}
+          {isOverview ? (
+            <StatsOverview handleForwardClick={handleForwardClick} />
+          ) : (
+            <StatsDetailed />
+          )}
         </MiddleRow>
-        <LowerRow>
-          <BackIconDiv onClick={() => history.push("/dash")}>
+        <LowerRow isOverview={isOverview}>
+          <BackIconDiv onClick={handleBackClick}>
             {backOSvg(backStyles)}
           </BackIconDiv>
+          {!isOverview && (
+            <TimeStamp>Last calculated on 17th January, 2021</TimeStamp>
+          )}
         </LowerRow>
       </InnerRow>
     </MainWrap>
@@ -60,11 +74,19 @@ const Heading = styled.div`
   color: ${text};
 `;
 
-const LowerRow = styled(HeadingRow)``;
+const LowerRow = styled(HeadingRow)`
+  display: flex;
+  justify-content: ${({ isOverview }) =>
+    isOverview ? "flex-start" : "space-between"};
+`;
 
 const MiddleRow = styled.div`
   height: 100%;
   width: 100%;
+`;
+
+const TimeStamp = styled(Heading)`
+  font-size: 18px;
 `;
 
 const BackIconDiv = styled.div`

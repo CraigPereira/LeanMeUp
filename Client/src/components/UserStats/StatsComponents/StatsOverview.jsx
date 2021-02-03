@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
 import { backOSvg } from "../../../constants/SVGs.jsx";
 
-const { primary, text, card, background, placeholder } = Palette;
+const { primary, text, card } = Palette;
 
 const backStyles = {
   fill: `${text}`,
@@ -11,13 +11,13 @@ const backStyles = {
   transform: "rotate(180)",
 };
 
-const StatsOverview = () => {
+const StatsOverview = ({ handleForwardClick }) => {
   return (
     <OuterWrapper>
       <Card>
         <CardHeadingRow>
           <span>Basic</span>
-          <span>{backOSvg(backStyles)}</span>
+          <span onClick={handleForwardClick}>{backOSvg(backStyles)}</span>
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
@@ -40,7 +40,7 @@ const StatsOverview = () => {
       <Card>
         <CardHeadingRow>
           <span>Macros & Calories</span>
-          <span>{backOSvg(backStyles)}</span>
+          <span onClick={handleForwardClick}>{backOSvg(backStyles)}</span>
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
