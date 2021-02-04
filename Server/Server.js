@@ -17,12 +17,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Cors to prevent CORS errors
-app.use(cors({ credentials: true }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 const Listen = () => {
   //Listen for Requests.

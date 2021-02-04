@@ -29,15 +29,19 @@ const Signup = ({ history }) => {
 
   const fetchQuote = async () => {
     //GET request to the API to fetch a random quote
+    setIsLoading(true);
     const quote = await axios.get("api/quote/");
     setRandomQuote(quote.data[0]);
+    setIsLoading(false);
   };
 
   const createUser = async (userData) => {
     //POST request to the API to sign up a new user
     try {
       setIsLoading(true);
-      const res = await axios.post("api/signup", userData);
+      const res = await axios.post("api/signup", userData, {
+        withCredentials: true,
+      });
       console.log(res.data);
       history.push("/dash");
     } catch (err) {

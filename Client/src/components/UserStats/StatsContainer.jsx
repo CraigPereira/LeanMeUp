@@ -9,7 +9,7 @@ const { primary, text, card, background, placeholder } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
 
 const StatsContainer = ({ history }) => {
-  const [isOverview, setIsOverview] = useState(!true);
+  const [isOverview, setIsOverview] = useState(true);
 
   const handleBackClick = () => {
     if (isOverview) history.push("/dash");

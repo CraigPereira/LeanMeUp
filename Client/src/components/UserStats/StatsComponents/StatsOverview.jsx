@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
 import { backOSvg } from "../../../constants/SVGs.jsx";
+import { useHistory } from "react-router-dom";
 
 const { primary, text, card } = Palette;
 
@@ -12,6 +13,7 @@ const backStyles = {
 };
 
 const StatsOverview = ({ handleForwardClick }) => {
+  const history = useHistory();
   return (
     <OuterWrapper>
       <Card>
@@ -34,7 +36,9 @@ const StatsOverview = ({ handleForwardClick }) => {
           </DataWrap>
         </CardMiddleRow>
         <CardLowerRow>
-          <ReCalculateBtn>Re Calculate</ReCalculateBtn>
+          <ReCalculateBtn onClick={() => history.push("/bmi")}>
+            Re Calculate
+          </ReCalculateBtn>
         </CardLowerRow>
       </Card>
       <Card>
@@ -57,7 +61,9 @@ const StatsOverview = ({ handleForwardClick }) => {
           </DataWrap>
         </CardMiddleRow>
         <CardLowerRow>
-          <ReCalculateBtn>Re Calculate</ReCalculateBtn>
+          <ReCalculateBtn onClick={() => history.push("/calories")}>
+            Re Calculate
+          </ReCalculateBtn>
         </CardLowerRow>
       </Card>
     </OuterWrapper>
