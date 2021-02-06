@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "../Axios/baseUrl";
 import { Palette } from "../constants/Palette";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
+import { useForm } from "react-hook-form";
+import Loading from "./Loader/Loading.jsx";
+import {
+  emailValidation,
+  passValidation,
+} from "../constants/ValidationObjects";
 
 const { primary, text, card, background, placeholder } = Palette;
 
@@ -10,42 +17,70 @@ const boltStyles = { width: "20px", height: "25px", fill: "#58c2b1" };
 const backStyles = { fill: `${text}`, width: "27px" };
 
 const Login = ({ history }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { register, handleSubmit, errors } = useForm();
+
+  const loginUser = async (userData) => {
+    //POST request to the API to Log in  a new user
+    try {
+      setIsLoading(true);
+      const res = await axios.post("api/login", userData, {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        console.log(res.data);
+        // history.push("/dash");
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  const onSubmit = (data) => loginUser(data);
+
   return (
     <MainWrap>
-      <InnerRow>
-        <LeftSide>
-          <Heading>Welcome Back!</Heading>
-          <Card>
-            <LoginForm>
-              <CardHeading>Login</CardHeading>
-              <UnderLineInput
-                type="email"
-                defaultValue=""
-                name="email"
-                placeholder="Your Email"
-                autoComplete="none"
-                required
-              />
-              <UnderLineInput
-                type="password"
-                defaultValue=""
-                name="password"
-                placeholder="Password"
-                autoComplete="on"
-                required
-              />
-              <LoginButton>
-                <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
-                Login
-              </LoginButton>
-              <BackIconDiv onClick={() => history.push("/")}>
-                {backOSvg(backStyles)}
-              </BackIconDiv>
-            </LoginForm>
-          </Card>
-        </LeftSide>
-        <RightSide></RightSide>
-      </InnerRow>
+      {!isLoading ? (
+        <InnerRow>
+          <LeftSide>
+            <Heading>Welcome Back!</Heading>
+            <Card errors={errors}>
+              <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                <CardHeading>Login</CardHeading>
+                <UnderLineInput
+                  type="email"
+                  name="email"
+                  ref={register(emailValidation)}
+                  placeholder="Your Email"
+                  autoComplete="none"
+                />
+                {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
+                <UnderLineInput
+                  type="password"
+                  name="password"
+                  ref={register(passValidation)}
+                  placeholder="Password"
+                  autoComplete="on"
+                />
+                {errors.password && (
+                  <ErrorMsg>{errors.password.message}</ErrorMsg>
+                )}
+                <LoginButton>
+                  <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
+                  Login
+                </LoginButton>
+                <BackIconDiv onClick={() => history.push("/")}>
+                  {backOSvg(backStyles)}
+                </BackIconDiv>
+              </LoginForm>
+            </Card>
+          </LeftSide>
+          <RightSide></RightSide>
+        </InnerRow>
+      ) : (
+        <Loading />
+      )}
     </MainWrap>
   );
 };
@@ -86,7 +121,13 @@ const RightSide = styled.div`
 const Card = styled.div`
   box-sizing: border-box;
   width: 401px;
-  height: 450px;
+  height: ${({ errors }) => {
+    return Object.keys(errors).length === 1
+      ? "465px"
+      : Object.keys(errors).length === 2
+      ? "490px"
+      : "450px";
+  }};
   background: ${card};
   display: flex;
   flex-direction: column;
@@ -161,4 +202,11 @@ const BackIconDiv = styled.div`
 const BoltWrap = styled.div`
   position: absolute;
   left: 3em;
+`;
+
+const ErrorMsg = styled.div`
+  box-sizing: border-box;
+  width: 249px;
+  font-size: 12px;
+  color: #df3d3d;
 `;
