@@ -7,6 +7,7 @@ import {
   passValidation,
   emailValidation,
 } from "../constants/ValidationObjects";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
 import Loading from "./Loader/Loading.jsx";
 import { useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ const Signup = ({ history }) => {
   const [randomQuote, setRandomQuote] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [ErrorTxt, setErrorTxt] = useState("");
+  const [isPassShown, setIsPassShown] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
   //Fetch Quote on Mount
@@ -46,10 +48,15 @@ const Signup = ({ history }) => {
       if (res.status === 201 && res.data.user) history.push("/dash");
     } catch (err) {
       setIsLoading(false);
-      setErrorTxt("That Email is already Registered");
+      const {
+        response: {
+          data: { errors },
+        },
+      } = err;
+      setErrorTxt(errors.email);
       setTimeout(() => {
         setErrorTxt("");
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -80,13 +87,25 @@ const Signup = ({ history }) => {
                 />
                 {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
                 {ErrorTxt && <ErrorMsg>{ErrorTxt}</ErrorMsg>}
-                <UnderLineInput
-                  type="password"
-                  ref={register(passValidation)}
-                  name="password"
-                  placeholder="Password"
-                  autoComplete="on"
-                />
+                <PassRow>
+                  <UnderLineInput
+                    type={isPassShown ? "text" : "password"}
+                    ref={register(passValidation)}
+                    name="password"
+                    placeholder="Password"
+                    autoComplete="on"
+                  />
+                  <PassIconDiv
+                    onClick={() => setIsPassShown((prevState) => !prevState)}
+                    top={isPassShown ? "calc(30% + 1px)" : "30%"}
+                  >
+                    {isPassShown ? (
+                      <VscEyeClosed color={placeholder} size="14" />
+                    ) : (
+                      <VscEye color={placeholder} size="14" />
+                    )}
+                  </PassIconDiv>
+                </PassRow>
                 {errors.password && (
                   <ErrorMsg>{errors.password.message}</ErrorMsg>
                 )}
@@ -253,4 +272,15 @@ const ErrorMsg = styled.div`
   width: 249px;
   font-size: 12px;
   color: #df3d3d;
+`;
+
+const PassRow = styled.div`
+  position: relative;
+`;
+
+const PassIconDiv = styled.div`
+  position: absolute;
+  cursor: pointer;
+  top: ${({ top }) => top};
+  right: 5%;
 `;

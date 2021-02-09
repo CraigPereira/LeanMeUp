@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "../Axios/baseUrl";
 import { Palette } from "../constants/Palette";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
 import { useForm } from "react-hook-form";
 import Loading from "./Loader/Loading.jsx";
@@ -18,6 +19,8 @@ const backStyles = { fill: `${text}`, width: "27px" };
 
 const Login = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isPassShown, setIsPassShown] = useState(false);
+  const [ErrorTxt, setErrorTxt] = useState("");
   const { register, handleSubmit, errors } = useForm();
 
   const loginUser = async (userData) => {
@@ -27,13 +30,21 @@ const Login = ({ history }) => {
       const res = await axios.post("api/login", userData, {
         withCredentials: true,
       });
-      if (res.status === 200) {
-        console.log(res.data);
-        // history.push("/dash");
-      }
+
+      if (res.status === 200) history.push("/dash");
     } catch (err) {
       setIsLoading(false);
-      console.log(err);
+      const {
+        response: {
+          data: { errors },
+        },
+      } = err;
+
+      if (errors.email) setErrorTxt(errors.email);
+      if (errors.password) setErrorTxt(errors.password);
+      setTimeout(() => {
+        setErrorTxt("");
+      }, 5000);
     }
   };
 
@@ -56,16 +67,29 @@ const Login = ({ history }) => {
                   autoComplete="none"
                 />
                 {errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
-                <UnderLineInput
-                  type="password"
-                  name="password"
-                  ref={register(passValidation)}
-                  placeholder="Password"
-                  autoComplete="on"
-                />
+                <PassRow>
+                  <UnderLineInput
+                    type={isPassShown ? "text" : "password"}
+                    name="password"
+                    ref={register(passValidation)}
+                    placeholder="Password"
+                    autoComplete="on"
+                  />
+                  <PassIconDiv
+                    onClick={() => setIsPassShown((prevState) => !prevState)}
+                    top={isPassShown ? "calc(30% + 1px)" : "30%"}
+                  >
+                    {isPassShown ? (
+                      <VscEyeClosed color={placeholder} size="14" />
+                    ) : (
+                      <VscEye color={placeholder} size="14" />
+                    )}
+                  </PassIconDiv>
+                </PassRow>
                 {errors.password && (
                   <ErrorMsg>{errors.password.message}</ErrorMsg>
                 )}
+                {ErrorTxt && <ErrorMsg>{ErrorTxt}</ErrorMsg>}
                 <LoginButton>
                   <BoltWrap>{LmuBoltSvg(boltStyles)}</BoltWrap>
                   Login
@@ -209,4 +233,15 @@ const ErrorMsg = styled.div`
   width: 249px;
   font-size: 12px;
   color: #df3d3d;
+`;
+
+const PassRow = styled.div`
+  position: relative;
+`;
+
+const PassIconDiv = styled.div`
+  position: absolute;
+  cursor: pointer;
+  top: ${({ top }) => top};
+  right: 5%;
 `;
