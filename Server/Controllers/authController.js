@@ -65,4 +65,24 @@ const login_post = async (req, res) => {
   }
 };
 
-module.exports = { signup_post, login_post };
+const logout_get = async (req, res) => {
+  //Log out a user by resetting the jwt token
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.send("Logged out");
+};
+
+const checkAuth_get = async (req, res) => {
+  //Route to check if the current user is authenticated or not
+  try {
+    const token = req.cookies.jwt;
+    if (!token) return res.json(false);
+
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    res.send(true);
+  } catch (err) {
+    res.json(false);
+  }
+};
+
+module.exports = { signup_post, login_post, checkAuth_get, logout_get };

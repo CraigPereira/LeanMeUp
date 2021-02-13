@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { Palette } from "../constants/Palette";
 import axios from "../Axios/baseUrl";
@@ -7,10 +7,12 @@ import {
   passValidation,
   emailValidation,
 } from "../constants/ValidationObjects";
+import { Redirect } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
 import Loading from "./Loader/Loading.jsx";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../contexts/authContext";
 
 const { primary, text, card, background, placeholder } = Palette;
 
@@ -24,6 +26,8 @@ const Signup = ({ history }) => {
   const [ErrorTxt, setErrorTxt] = useState("");
   const [isPassShown, setIsPassShown] = useState(false);
   const { register, handleSubmit, errors } = useForm();
+
+  const { checkAuthentication, isAuthenticated } = useContext(AuthContext);
 
   //Fetch Quote on Mount
   useEffect(() => {
@@ -42,10 +46,11 @@ const Signup = ({ history }) => {
     //POST request to the API to sign up a new user
     try {
       setIsLoading(true);
-      const res = await axios.post("api/signup", userData, {
-        withCredentials: true,
-      });
-      if (res.status === 201 && res.data.user) history.push("/dash");
+      const res = await axios.post("api/signup", userData);
+      if (res.status === 201 && res.data.user) {
+        await checkAuthentication();
+        history.push("/dash");
+      }
     } catch (err) {
       setIsLoading(false);
       const {
@@ -61,6 +66,10 @@ const Signup = ({ history }) => {
   };
 
   const onSubmit = (data) => createUser(data);
+
+  if (isAuthenticated) {
+    return <Redirect to="/dash" />;
+  }
 
   return (
     <MainWrap>

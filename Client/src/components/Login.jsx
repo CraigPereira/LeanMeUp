@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "../Axios/baseUrl";
 import { Palette } from "../constants/Palette";
+import { Redirect } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
 import { useForm } from "react-hook-form";
@@ -10,6 +11,7 @@ import {
   emailValidation,
   passValidation,
 } from "../constants/ValidationObjects";
+import { AuthContext } from "../contexts/authContext";
 
 const { primary, text, card, background, placeholder } = Palette;
 
@@ -23,15 +25,18 @@ const Login = ({ history }) => {
   const [ErrorTxt, setErrorTxt] = useState("");
   const { register, handleSubmit, errors } = useForm();
 
+  const { checkAuthentication, isAuthenticated } = useContext(AuthContext);
+
   const loginUser = async (userData) => {
     //POST request to the API to Log in  a new user
     try {
       setIsLoading(true);
-      const res = await axios.post("api/login", userData, {
-        withCredentials: true,
-      });
+      const res = await axios.post("api/login", userData);
 
-      if (res.status === 200) history.push("/dash");
+      if (res.status === 200) {
+        await checkAuthentication();
+        history.push("/dash");
+      }
     } catch (err) {
       setIsLoading(false);
       const {
@@ -49,6 +54,10 @@ const Login = ({ history }) => {
   };
 
   const onSubmit = (data) => loginUser(data);
+
+  if (isAuthenticated) {
+    return <Redirect to="/dash" />;
+  }
 
   return (
     <MainWrap>

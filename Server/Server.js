@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./Routes/authRoutes");
 const quoteRoutes = require("./Routes/quoteRoutes");
+const { requireAuth } = require("./Middleware/authMiddleware");
 
 //Initialize Express app
 const app = express();
@@ -16,13 +17,8 @@ app.use(express.json());
 //Enables a cookie method on the response object, making it easier to use cookies
 app.use(cookieParser());
 
-//Cors to prevent CORS errors
+//Cors to prevent CORS errors & enable saving cookies
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   next();
-// });
 
 const Listen = () => {
   //Listen for Requests.
@@ -50,3 +46,5 @@ mongoose
 app.get("/", (req, res) => res.send(`Hello there`));
 app.use("/api", authRoutes);
 app.use("/api/quote", quoteRoutes);
+//Temp route for testing auth middleware
+app.use("/userData", requireAuth, (req, res) => res.send("super secret data"));

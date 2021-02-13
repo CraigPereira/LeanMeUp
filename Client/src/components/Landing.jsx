@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { paraVariants, spinTransition } from "../Variants/LandingVariants";
 import { LmuLogoSvg } from "../constants/SVGs";
 import { Palette } from "../constants/Palette";
+import { AuthContext } from "../contexts/authContext";
+import axios from "../Axios/baseUrl";
+import Auxillary from "./HOC/Auxillary.jsx";
 
-const Landing = () => {
+const Landing = ({ history }) => {
+  const { isAuthenticated, checkAuthentication } = useContext(AuthContext);
   const Heading = "Lean me up";
   const tagLine = `${Heading} simplifies complex nutritional math for you`;
+
+  const logOut = async () => {
+    await axios.get("api/logout");
+    await checkAuthentication();
+    history.push("/");
+  };
+
   return (
     <LandingOuterWrap>
       <HeadingText>{Heading}</HeadingText>
       <UpperRightContainer>
-        <SignUpBtn to={"/signup"}>Sign up</SignUpBtn>
-        <LoginBtn to={"/login"}>Login</LoginBtn>
+        {isAuthenticated ? (
+          <Auxillary>
+            <SignUpBtn to="/dash">Dashboard</SignUpBtn>
+            <LoginBtn onClick={logOut}>Logout</LoginBtn>
+          </Auxillary>
+        ) : (
+          <Auxillary>
+            <SignUpBtn to="/signup">Sign up</SignUpBtn>
+            <LoginBtn to="/login">Login</LoginBtn>
+          </Auxillary>
+        )}
       </UpperRightContainer>
       <Logo
         src={require("../images/LMU-Logo.png")}
