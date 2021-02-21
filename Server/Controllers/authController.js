@@ -42,7 +42,7 @@ const signup_post = async (req, res) => {
     const time = process.env.JWT_EXPIRES_IN * 1000;
     //Sending back the token in a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: time });
-    res.status(201).json({ user: user._id });
+    res.status(201).json({ email: user.email });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -52,24 +52,22 @@ const signup_post = async (req, res) => {
 const login_post = async (req, res) => {
   const { email, password } = req.body;
 
+  //Try to Log a user in
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     const time = process.env.JWT_EXPIRES_IN * 1000;
     //Sending back the token in a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: time });
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ email: user.email });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
 };
 
-const logout_get = async (req, res) => {
-  //Log out a user by resetting the jwt token
-  res.cookie("jwt", "", { maxAge: 1 });
-  res.send("Logged out");
-};
+//Log out a user by resetting the jwt token
+const logout_get = (req, res) => res.cookie("jwt", "", { maxAge: 1 }).send();
 
 const checkAuth_get = async (req, res) => {
   //Route to check if the current user is authenticated or not

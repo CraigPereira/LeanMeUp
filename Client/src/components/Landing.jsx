@@ -3,22 +3,14 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { paraVariants, spinTransition } from "../Variants/LandingVariants";
-import { LmuLogoSvg } from "../constants/SVGs";
 import { Palette } from "../constants/Palette";
 import { AuthContext } from "../contexts/authContext";
-import axios from "../Axios/baseUrl";
 import Auxillary from "./HOC/Auxillary.jsx";
 
-const Landing = ({ history }) => {
-  const { isAuthenticated, checkAuthentication } = useContext(AuthContext);
+const Landing = () => {
+  const { isAuthenticated, logOut } = useContext(AuthContext);
   const Heading = "Lean me up";
   const tagLine = `${Heading} simplifies complex nutritional math for you`;
-
-  const logOut = async () => {
-    await axios.get("api/logout");
-    await checkAuthentication();
-    history.push("/");
-  };
 
   return (
     <LandingOuterWrap>

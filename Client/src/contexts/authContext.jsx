@@ -8,8 +8,14 @@ const AuthContextProvider = ({ children }) => {
 
   const checkAuthentication = async () => {
     const authStatus = await axios.get("/api/checkAuth");
-    console.log(authStatus.data);
     setIsAuthenticated(authStatus.data);
+  };
+
+  const logOut = async () => {
+    //Function to logout
+    localStorage.removeItem("email");
+    await axios.get("api/logout");
+    await checkAuthentication();
   };
 
   useEffect(() => {
@@ -18,7 +24,13 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, checkAuthentication }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        checkAuthentication,
+        logOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

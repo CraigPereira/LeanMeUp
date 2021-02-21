@@ -35,6 +35,8 @@ const Login = ({ history }) => {
 
       if (res.status === 200) {
         await checkAuthentication();
+        const email = res.data.email;
+        localStorage.setItem("email", email);
         history.push("/dash");
       }
     } catch (err) {

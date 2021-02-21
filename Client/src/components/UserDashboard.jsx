@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Navbar from "./Navbar/Navbar.jsx";
 import { Palette } from "../constants/Palette";
 import { LmuBoltSvg, pencilSvg, StatsSvg, backOSvg } from "../constants/SVGs";
 
@@ -37,6 +38,7 @@ const UserDashboard = ({ history }) => {
 
   return (
     <OuterContainer>
+      <Navbar />
       <InnerRow>
         <HeadingWrap>
           <Heading>Dashboard</Heading>
@@ -70,7 +72,7 @@ const InnerRow = styled.div`
   justify-content: flex-start;
   box-sizing: border-box;
   width: 100vw;
-  height: 750px;
+  height: 820px;
 `;
 
 const CardsRow = styled.div`

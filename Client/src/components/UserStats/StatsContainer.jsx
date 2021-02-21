@@ -4,8 +4,9 @@ import { Palette } from "../../constants/Palette.jsx";
 import { backOSvg } from "../../constants/SVGs.jsx";
 import StatsOverview from "./StatsComponents/StatsOverview.jsx";
 import StatsDetailed from "./StatsComponents/StatsDetailed.jsx";
+import Navbar from "../Navbar/Navbar.jsx";
 
-const { primary, text, card, background, placeholder } = Palette;
+const { text, background } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
 
 const StatsContainer = ({ history }) => {
@@ -20,6 +21,7 @@ const StatsContainer = ({ history }) => {
 
   return (
     <MainWrap>
+      {/* <Navbar /> */}
       <InnerRow>
         <HeadingRow>
           <Heading>My Stats</Heading>
@@ -48,6 +50,7 @@ export default StatsContainer;
 
 const MainWrap = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;

@@ -47,8 +47,10 @@ const Signup = ({ history }) => {
     try {
       setIsLoading(true);
       const res = await axios.post("api/signup", userData);
-      if (res.status === 201 && res.data.user) {
+      if (res.status === 201 && res.data.email) {
         await checkAuthentication();
+        const email = res.data.email;
+        localStorage.setItem("email", email);
         history.push("/dash");
       }
     } catch (err) {

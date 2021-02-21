@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./Routes/authRoutes");
 const quoteRoutes = require("./Routes/quoteRoutes");
+const userRoutes = require("./Routes/userRoutes");
 const { requireAuth } = require("./Middleware/authMiddleware");
 
 //Initialize Express app
@@ -46,5 +47,4 @@ mongoose
 app.get("/", (req, res) => res.send(`Hello there`));
 app.use("/api", authRoutes);
 app.use("/api/quote", quoteRoutes);
-//Temp route for testing auth middleware
-app.use("/userData", requireAuth, (req, res) => res.send("super secret data"));
+app.use("/api/user", userRoutes);
