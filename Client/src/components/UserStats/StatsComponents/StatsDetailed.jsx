@@ -64,25 +64,27 @@ const InnerWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 100%;
+  height: 600px;
   width: 100%;
 `;
 
 const OuterWrapper = styled.div`
   display: flex;
   align-items: flex-end;
-  height: 97%;
+  height: 100%;
 `;
 
 const LeftCardDiv = styled.div`
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
   width: 25%;
-  height: 95%;
+  height: 100%;
 `;
 
 const LeftCard = styled.div`
   width: 100%;
-  height: 100%;
+  height: 95%;
   display: flex;
   justify-content: center;
   align-items: center;

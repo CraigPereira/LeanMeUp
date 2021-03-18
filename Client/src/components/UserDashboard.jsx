@@ -40,15 +40,11 @@ const UserDashboard = ({ history }) => {
     <OuterContainer>
       <Navbar />
       <InnerRow>
-        <HeadingWrap>
-          <Heading>Dashboard</Heading>
-        </HeadingWrap>
+        <Heading>Dashboard</Heading>
         <CardsRow>{Cards}</CardsRow>
-        <HeadingWrap>
-          <BackIconDiv onClick={() => history.push("/")}>
-            {backOSvg(backStyles)}
-          </BackIconDiv>
-        </HeadingWrap>
+        <BackIconDiv onClick={() => history.push("/")}>
+          {backOSvg(backStyles)}
+        </BackIconDiv>
       </InnerRow>
     </OuterContainer>
   );
@@ -60,8 +56,8 @@ const OuterContainer = styled.div`
   box-sizing: border-box;
   height: 100vh;
   width: 100vw;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-flow: column wrap;
 `;
 
 const InnerRow = styled.div`
@@ -72,14 +68,16 @@ const InnerRow = styled.div`
   justify-content: flex-start;
   box-sizing: border-box;
   width: 100vw;
-  height: 820px;
+  height: auto;
+  margin: 41px 0;
+  padding: 0 10%;
 `;
 
 const CardsRow = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   box-sizing: border-box;
-  width: 85%;
+  width: 100%;
   height: 390px;
 `;
 
@@ -115,23 +113,18 @@ const Title = styled.div`
   color: ${text};
 `;
 
-const HeadingWrap = styled.div`
-  width: 85%;
-  display: flex;
-  justify-content: flex-start;
-`;
-
 const Heading = styled(Title)`
   font-size: 54px;
-  margin-left: 1.2em;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 37px;
 `;
 
 const BackIconDiv = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
-  margin-top: 4em;
-  margin-left: 4.6%;
+  justify-content: flex-start;
+  margin-top: 37px;
   cursor: pointer;
 `;

@@ -47,8 +47,9 @@ const OuterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 100px;
+  padding: 0 5%;
 `;
 
 const LeftWrap = styled.div`

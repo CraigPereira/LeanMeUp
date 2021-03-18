@@ -19,7 +19,7 @@ const StatsOverview = ({ handleForwardClick }) => {
       <Card>
         <CardHeadingRow>
           <span>Basic</span>
-          <span onClick={handleForwardClick}>{backOSvg(backStyles)}</span>
+          <Arrow onClick={handleForwardClick}>{backOSvg(backStyles)}</Arrow>
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
@@ -44,7 +44,7 @@ const StatsOverview = ({ handleForwardClick }) => {
       <Card>
         <CardHeadingRow>
           <span>Macros & Calories</span>
-          <span onClick={handleForwardClick}>{backOSvg(backStyles)}</span>
+          <Arrow onClick={handleForwardClick}>{backOSvg(backStyles)}</Arrow>
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
@@ -82,7 +82,6 @@ const OuterWrapper = styled.div`
 
 const Card = styled.div`
   box-sizing: border-box;
-  margin-top: 34px;
   margin-right: 53px;
   width: 385px;
   height: 192px;
@@ -134,4 +133,8 @@ const Value = styled.div`
 const Name = styled.div`
   color: ${text};
   font-size: 12px;
+`;
+
+const Arrow = styled.span`
+  cursor: pointer;
 `;

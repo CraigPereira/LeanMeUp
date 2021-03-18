@@ -21,11 +21,9 @@ const StatsContainer = ({ history }) => {
 
   return (
     <MainWrap>
-      {/* <Navbar /> */}
-      <InnerRow>
-        <HeadingRow>
-          <Heading>My Stats</Heading>
-        </HeadingRow>
+      <Navbar />
+      <InnerRow isOverview={isOverview}>
+        <Heading>My Stats</Heading>
         <MiddleRow>
           {isOverview ? (
             <StatsOverview handleForwardClick={handleForwardClick} />
@@ -51,7 +49,6 @@ export default StatsContainer;
 const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
@@ -62,23 +59,24 @@ const InnerRow = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 80vw;
-  height: 710px;
-`;
-
-const HeadingRow = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: flex-start;
+  height: auto;
+  padding: 0 10%;
+  margin: ${({ isOverview }) => (isOverview ? "41px 0" : "11px 0")};
 `;
 
 const Heading = styled.div`
-  font-size: 63px;
+  width: 100%;
+  display: flex;
+  margin-bottom: 37px;
+  justify-content: flex-start;
+  font-size: 54px;
   color: ${text};
 `;
 
-const LowerRow = styled(HeadingRow)`
+const LowerRow = styled.div`
   display: flex;
+  align-items: center;
   justify-content: ${({ isOverview }) =>
     isOverview ? "flex-start" : "space-between"};
 `;
@@ -88,10 +86,14 @@ const MiddleRow = styled.div`
   width: 100%;
 `;
 
-const TimeStamp = styled(Heading)`
+const TimeStamp = styled.div`
   font-size: 18px;
+  margin-top: 37px;
+  color: ${Palette.text};
+  height: auto;
 `;
 
 const BackIconDiv = styled.div`
+  margin-top: 37px;
   cursor: pointer;
 `;
