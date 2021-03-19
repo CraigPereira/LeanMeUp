@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
-import { InfoCircle } from "../../../constants/SVGs.jsx";
+import { BicepSvg, crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
+import Auxillary from "../../HOC/Auxillary.jsx";
 
 const { primary, text, card } = Palette;
+
+const CrossSvgStyles = { fill: "#fff", width: "20px", cursor: "pointer" };
 
 const cardsData = [
   { id: 1, label: "Basal Metabolic Rate (BMR)", value: "1648.12" },
@@ -22,12 +25,16 @@ const cardsData = [
 ];
 
 const StatsDetailed = () => {
+  const [isCardInfoShown, setIsCardInfoShown] = useState(false);
+
   const cards = cardsData.map((card) => {
     return (
       <GridCard key={card.id}>
         <StatNumber>{card.value}</StatNumber>
         <LabelText>{card.label}</LabelText>
-        <IconDiv>{InfoCircle()}</IconDiv>
+        <IconDiv onClick={() => setIsCardInfoShown((prevState) => !prevState)}>
+          {InfoCircle()}
+        </IconDiv>
       </GridCard>
     );
   });
@@ -37,11 +44,35 @@ const StatsDetailed = () => {
       <InnerWrapper>
         {" "}
         <LeftCardDiv>
-          <LeftCard>
-            <Logo
-              src={require("../../../images/LMU-Logo.png")}
-              alt="Lean-me-up-logo"
-            />
+          <LeftCard isCardInfoShown={isCardInfoShown}>
+            {isCardInfoShown ? (
+              <Auxillary>
+                <CrossIconDiv
+                  onClick={() => setIsCardInfoShown((prevState) => !prevState)}
+                >
+                  {crossOSvg(CrossSvgStyles)}
+                </CrossIconDiv>
+                <InfoCardTitle>Protein</InfoCardTitle>
+                <InfoCardText>
+                  Protein is one of the 3 main macro nutrients. It is the key to
+                  building muscle and losing bodyfat
+                </InfoCardText>
+                <InfoCardText>
+                  Protein and Carbs provide 4 calories per gram.
+                </InfoCardText>
+                <InfoCardText>
+                  Some sources of Protein are Meats like Chicken, beef, pork,
+                  turkey Eggs, Fish etc. Vegan sources include lentils, beans,
+                  Tofu, etc.
+                </InfoCardText>
+                {BicepSvg()}
+              </Auxillary>
+            ) : (
+              <Logo
+                src={require("../../../images/LMU-Logo.png")}
+                alt="Lean-me-up-logo"
+              />
+            )}
           </LeftCard>
         </LeftCardDiv>
         <RightCardsGrid>{cards}</RightCardsGrid>
@@ -86,7 +117,9 @@ const LeftCard = styled.div`
   width: 100%;
   height: 95%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: ${({ isCardInfoShown }) =>
+    isCardInfoShown ? "flex-start" : "center"};
   align-items: center;
   color: ${text};
   ${CardCommonStyles};
@@ -148,3 +181,33 @@ const Logo = styled.img`
     width: 310px;
   }
 `;
+
+const CrossIconDiv = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  height: auto;
+  margin-top: 35px;
+`;
+
+const InfoCardTitle = styled.div`
+  font-size: 24px;
+  width: 100%;
+  color: ${primary};
+  display: flex;
+  justify-content: center;
+  margin: 28px 0;
+`;
+
+const InfoCardText = styled.div`
+  font-size: 18px;
+  text-align: left;
+  color: ${text};
+  margin-bottom: 28px;
+  padding: 0 38px;
+`;
+
+// const InfoCardIcon = styled.div`
+//   width: 85px;
+//   height: 74px;
+// `;
