@@ -1,40 +1,34 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
-import { BicepSvg, crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
+import { crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
+import { cardsData } from "../../../constants/StatsDataStore";
 import Auxillary from "../../HOC/Auxillary.jsx";
 
 const { primary, text, card } = Palette;
 
 const CrossSvgStyles = { fill: "#fff", width: "20px", cursor: "pointer" };
 
-const cardsData = [
-  { id: 1, label: "Basal Metabolic Rate (BMR)", value: "1648.12" },
-  { id: 2, label: "Protein target", value: "99 g" },
-  { id: 3, label: "Calories from protein ", value: "396 kcal" },
-  {
-    id: 4,
-    label: "Total Daily Energy expenditure (TDEE)",
-    value: "2307 kcal",
-  },
-  { id: 5, label: "Fats target", value: "106 g" },
-  { id: 6, label: "Calories from Carbs & Fat ", value: "955 kcal" },
-  { id: 7, label: "Daily Calorie Goal ", value: "2607 kcal" },
-  { id: 8, label: "Carbs target", value: "238 g" },
-  { id: 9, label: "Current Goal ", value: "Muscle Gain" },
-];
-
 const StatsDetailed = () => {
   const [isCardInfoShown, setIsCardInfoShown] = useState(false);
+  const [cardData, setCardData] = useState({});
+
+  const handleIClick = (details) => {
+    setCardData(details);
+    if (isCardInfoShown) return;
+    setIsCardInfoShown((prevState) => !prevState);
+  };
 
   const cards = cardsData.map((card) => {
     return (
       <GridCard key={card.id}>
         <StatNumber>{card.value}</StatNumber>
         <LabelText>{card.label}</LabelText>
-        <IconDiv onClick={() => setIsCardInfoShown((prevState) => !prevState)}>
-          {InfoCircle()}
-        </IconDiv>
+        {card.label !== "Current Goal" && (
+          <IconDiv onClick={() => handleIClick(card.details)}>
+            {InfoCircle()}
+          </IconDiv>
+        )}
       </GridCard>
     );
   });
@@ -45,27 +39,18 @@ const StatsDetailed = () => {
         {" "}
         <LeftCardDiv>
           <LeftCard isCardInfoShown={isCardInfoShown}>
-            {isCardInfoShown ? (
+            {isCardInfoShown && cardData?.title ? (
               <Auxillary>
                 <CrossIconDiv
                   onClick={() => setIsCardInfoShown((prevState) => !prevState)}
                 >
                   {crossOSvg(CrossSvgStyles)}
                 </CrossIconDiv>
-                <InfoCardTitle>Protein</InfoCardTitle>
-                <InfoCardText>
-                  Protein is one of the 3 main macro nutrients. It is the key to
-                  building muscle and losing bodyfat
-                </InfoCardText>
-                <InfoCardText>
-                  Protein and Carbs provide 4 calories per gram.
-                </InfoCardText>
-                <InfoCardText>
-                  Some sources of Protein are Meats like Chicken, beef, pork,
-                  turkey Eggs, Fish etc. Vegan sources include lentils, beans,
-                  Tofu, etc.
-                </InfoCardText>
-                {BicepSvg()}
+                <InfoCardTitle>{cardData.title}</InfoCardTitle>
+                {cardData.info.map((line) => {
+                  return <InfoCardText>{line}</InfoCardText>;
+                })}
+                {cardData.icon}
               </Auxillary>
             ) : (
               <Logo
@@ -206,8 +191,3 @@ const InfoCardText = styled.div`
   margin-bottom: 28px;
   padding: 0 38px;
 `;
-
-// const InfoCardIcon = styled.div`
-//   width: 85px;
-//   height: 74px;
-// `;
