@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "../../Axios/baseUrl";
 import { Palette } from "../../constants/Palette.jsx";
 import { backOSvg } from "../../constants/SVGs.jsx";
 import StatsOverview from "./StatsComponents/StatsOverview.jsx";
@@ -11,13 +12,44 @@ const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
 
 const StatsContainer = ({ history }) => {
   const [isOverview, setIsOverview] = useState(true);
+  const [cardGridData, setCardGridData] = useState([]);
+  const [isCardInfoShown, setIsCardInfoShown] = useState(false);
+  const [cardData, setCardData] = useState({});
+  const [userStats, setUserStats] = useState({});
+
+  useEffect(() => {
+    //Fetch data on mount
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    //Async function to fetch the card data from the db (Not a user's stats)
+    const res = await axios.get("api/cards/");
+    const { cards } = res.data;
+    setCardGridData(cards);
+
+    const response = await axios.get("/api/user/stats");
+    const {
+      data: { stats },
+    } = response;
+    setUserStats(stats);
+  };
 
   const handleBackClick = () => {
+    //Takes you back, depending on where you are at the moment
     if (isOverview) history.push("/dash");
     else setIsOverview((prevState) => !prevState);
   };
 
+  //Changes the state when the arrow is clicked, to take you to the next component
   const handleForwardClick = () => setIsOverview((prevState) => !prevState);
+
+  const handleIClick = (details) => {
+    //Called When the 'I' Icon on the Card is clicked, it will display more info about that particular card on the left.
+    setCardData(details);
+    if (isCardInfoShown) return;
+    setIsCardInfoShown((prevState) => !prevState);
+  };
 
   return (
     <MainWrap>
@@ -26,9 +58,19 @@ const StatsContainer = ({ history }) => {
         <Heading>My Stats</Heading>
         <MiddleRow>
           {isOverview ? (
-            <StatsOverview handleForwardClick={handleForwardClick} />
+            //Conditionally rendering either the stats overview or the  detailed stats component
+            <StatsOverview
+              handleForwardClick={handleForwardClick}
+              userStats={userStats}
+            />
           ) : (
-            <StatsDetailed />
+            <StatsDetailed
+              cardGridData={cardGridData}
+              handleIClick={handleIClick}
+              isCardInfoShown={isCardInfoShown}
+              setIsCardInfoShown={setIsCardInfoShown}
+              cardData={cardData}
+            />
           )}
         </MiddleRow>
         <LowerRow isOverview={isOverview}>
@@ -36,6 +78,7 @@ const StatsContainer = ({ history }) => {
             {backOSvg(backStyles)}
           </BackIconDiv>
           {!isOverview && (
+            //Render the timestamp only when a user is in the stats detailed component
             <TimeStamp>Last calculated on 17th January, 2021</TimeStamp>
           )}
         </LowerRow>

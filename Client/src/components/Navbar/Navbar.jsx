@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Palette } from "../../constants/Palette.jsx";
@@ -10,15 +10,8 @@ const svgStyles = { width: "28px", height: "39px", fill: "#58c2b1" };
 const { primary, text } = Palette;
 
 const Navbar = () => {
-  const [currUserEmail, setCurrUserEmail] = useState("");
-  const { logOut } = useContext(AuthContext);
+  const { logOut, userEmail } = useContext(AuthContext);
   const history = useHistory();
-
-  //fetch email here, in a use effect, with []
-  useEffect(() => {
-    const userEmail = localStorage.getItem("email");
-    setCurrUserEmail(userEmail);
-  });
 
   return (
     <OuterContainer>
@@ -28,7 +21,7 @@ const Navbar = () => {
       </LeftWrap>
       <CenterWrap>
         <span>
-          Welcome, <EmailSpan>{` ${currUserEmail}`}</EmailSpan>
+          Welcome, <EmailSpan>{` ${userEmail}`}</EmailSpan>
         </span>
       </CenterWrap>
       <RightWrap>

@@ -1,33 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
 import { crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
-import { cardsData } from "../../../constants/StatsDataStore";
 import Auxillary from "../../HOC/Auxillary.jsx";
+import { renderSvg } from "../../../constants/GlobalFunctions.js";
 
 const { primary, text, card } = Palette;
 
 const CrossSvgStyles = { fill: "#fff", width: "20px", cursor: "pointer" };
 
-const StatsDetailed = () => {
-  const [isCardInfoShown, setIsCardInfoShown] = useState(false);
-  const [cardData, setCardData] = useState({});
+const StatsDetailed = (props) => {
+  const {
+    cardGridData,
+    handleIClick,
+    isCardInfoShown,
+    setIsCardInfoShown,
+    cardData,
+  } = props;
 
-  const handleIClick = (details) => {
-    setCardData(details);
-    if (isCardInfoShown) return;
-    setIsCardInfoShown((prevState) => !prevState);
-  };
-
-  const cards = cardsData.map((card) => {
+  const cards = cardGridData.map((card) => {
     return (
-      <GridCard key={card.id}>
-        <StatNumber>{card.value}</StatNumber>
+      <GridCard key={card.label}>
+        <StatNumber>{card.value || "-"}</StatNumber>
         <LabelText>{card.label}</LabelText>
         {card.label !== "Current Goal" && (
-          <IconDiv onClick={() => handleIClick(card.details)}>
-            {InfoCircle()}
-          </IconDiv>
+          <IconDiv onClick={() => handleIClick(card)}>{InfoCircle()}</IconDiv>
         )}
       </GridCard>
     );
@@ -39,18 +36,18 @@ const StatsDetailed = () => {
         {" "}
         <LeftCardDiv>
           <LeftCard isCardInfoShown={isCardInfoShown}>
-            {isCardInfoShown && cardData?.title ? (
+            {isCardInfoShown && cardData?.label ? (
               <Auxillary>
                 <CrossIconDiv
                   onClick={() => setIsCardInfoShown((prevState) => !prevState)}
                 >
                   {crossOSvg(CrossSvgStyles)}
                 </CrossIconDiv>
-                <InfoCardTitle>{cardData.title}</InfoCardTitle>
+                <InfoCardTitle>{cardData.label}</InfoCardTitle>
                 {cardData.info.map((line) => {
-                  return <InfoCardText>{line}</InfoCardText>;
+                  return <InfoCardText key={line}>{line}</InfoCardText>;
                 })}
-                {cardData.icon}
+                {renderSvg(cardData.icon)}
               </Auxillary>
             ) : (
               <Logo

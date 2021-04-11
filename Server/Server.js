@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./Routes/authRoutes");
 const quoteRoutes = require("./Routes/quoteRoutes");
 const userRoutes = require("./Routes/userRoutes");
+const cardRoutes = require("./Routes/cardRoutes");
 const { requireAuth } = require("./Middleware/authMiddleware");
 
 //Initialize Express app
@@ -47,4 +48,5 @@ mongoose
 app.get("/", (req, res) => res.send(`Hello there`));
 app.use("/api", authRoutes);
 app.use("/api/quote", quoteRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/user", requireAuth, userRoutes);
+app.use("/api/cards", requireAuth, cardRoutes);

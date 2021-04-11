@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
 import { backOSvg } from "../../../constants/SVGs.jsx";
 import { useHistory } from "react-router-dom";
+import { UserDataContext } from "../../../contexts/UserDataContext.jsx";
 
 const { primary, text, card } = Palette;
 
@@ -12,8 +13,9 @@ const backStyles = {
   transform: "rotate(180)",
 };
 
-const StatsOverview = ({ handleForwardClick }) => {
+const StatsOverview = ({ handleForwardClick, userStats }) => {
   const history = useHistory();
+  const { weightUnits, heightUnits } = useContext(UserDataContext);
   return (
     <OuterWrapper>
       <Card>
@@ -23,15 +25,19 @@ const StatsOverview = ({ handleForwardClick }) => {
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
-            <Value>133 lbs</Value>
+            <Value>
+              {userStats.weight} {weightUnits}
+            </Value>
             <Name>Weight</Name>
           </DataWrap>
           <DataWrap>
-            <Value>180 cm</Value>
-            <Name>height</Name>
+            <Value>
+              {userStats.height} {heightUnits}
+            </Value>
+            <Name>Height</Name>
           </DataWrap>
           <DataWrap>
-            <Value>18.5</Value>
+            <Value>{userStats.bmi}</Value>
             <Name>BMI</Name>
           </DataWrap>
         </CardMiddleRow>
@@ -48,15 +54,15 @@ const StatsOverview = ({ handleForwardClick }) => {
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
-            <Value>99 g </Value>
+            <Value>{`${userStats.proteinTarget} g`}</Value>
             <Name>Protein</Name>
           </DataWrap>
           <DataWrap>
-            <Value>106 g</Value>
+            <Value>{`${userStats.fatsTarget} g`}</Value>
             <Name>Fats</Name>
           </DataWrap>
           <DataWrap>
-            <Value>238 g</Value>
+            <Value>{`${userStats.carbsTarget} g`}</Value>
             <Name>Carbs</Name>
           </DataWrap>
         </CardMiddleRow>
@@ -111,13 +117,6 @@ const DataWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const StyledBack = styled(backOSvg)`
-  fill: ${text};
-  cursor: pointer;
-  width: 24px;
-  transform: rotate(180deg);
 `;
 
 const ReCalculateBtn = styled.div`

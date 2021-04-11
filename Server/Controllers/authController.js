@@ -42,7 +42,7 @@ const signup_post = async (req, res) => {
     const time = process.env.JWT_EXPIRES_IN * 1000;
     //Sending back the token in a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: time });
-    res.status(201).json({ email: user.email });
+    res.status(201).json({ status: "Sign up Successful" });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -59,7 +59,7 @@ const login_post = async (req, res) => {
     const time = process.env.JWT_EXPIRES_IN * 1000;
     //Sending back the token in a cookie
     res.cookie("jwt", token, { httpOnly: true, maxAge: time });
-    res.status(200).json({ email: user.email });
+    res.status(200).json({ status: "Login Successful" });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -75,11 +75,16 @@ const checkAuth_get = async (req, res) => {
     const token = req.cookies.jwt;
     if (!token) return res.json(false);
 
-    jwt.verify(token, process.env.JWT_SECRET);
+    const secretKey = process.env.JWT_SECRET;
+    const verified = jwt.verify(token, secretKey);
+    //Fetching User Data if Verification is successful
+    const user = await User.findById(verified.id);
 
-    res.send(true);
+    const { email } = user;
+    res.json({ status: true, email });
   } catch (err) {
-    res.json(false);
+    console.log(err);
+    res.json({ status: false });
   }
 };
 

@@ -19,7 +19,9 @@ const Landing = () => {
         {isAuthenticated ? (
           <Auxillary>
             <SignUpBtn to="/dash">Dashboard</SignUpBtn>
-            <LoginBtn onClick={logOut}>Logout</LoginBtn>
+            <LoginBtn to="" onClick={logOut}>
+              Logout
+            </LoginBtn>
           </Auxillary>
         ) : (
           <Auxillary>

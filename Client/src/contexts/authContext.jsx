@@ -5,15 +5,17 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   const checkAuthentication = async () => {
     const authStatus = await axios.get("/api/checkAuth");
-    setIsAuthenticated(authStatus.data);
+    const { status, email } = authStatus.data;
+    setIsAuthenticated(status);
+    setUserEmail(email);
   };
 
   const logOut = async () => {
     //Function to logout
-    localStorage.removeItem("email");
     await axios.get("api/logout");
     await checkAuthentication();
   };
@@ -29,6 +31,7 @@ const AuthContextProvider = ({ children }) => {
         isAuthenticated,
         checkAuthentication,
         logOut,
+        userEmail,
       }}
     >
       {children}

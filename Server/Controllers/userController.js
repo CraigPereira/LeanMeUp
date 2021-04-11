@@ -1,14 +1,26 @@
-const User = require("../Models/User");
+const UserStats = require("../Models/UserStats");
 
-const email_post = async (req, res) => {
-  const { id } = req.body;
+const stats_post = async (req, res) => {
+  const { stats } = req.body;
+  console.log(stats);
   try {
-    const user = await User.findById(id);
-    res.send(user.email);
+    const userStats = await UserStats.create({ ...stats });
+    res.status(201).send("Success: Document Created");
   } catch (err) {
     console.log(err);
-    res.status(400).json({ msg: "error" });
+    res.status(400).json({ msg: "Error creating user stats document" });
   }
 };
 
-module.exports = { email_post };
+const stats_get = async (req, res) => {
+  const { userId } = req;
+  try {
+    const stats = await UserStats.findOne({ user: userId });
+    res.status(200).json({ stats });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "Error fetching user data" });
+  }
+};
+
+module.exports = { stats_post, stats_get };

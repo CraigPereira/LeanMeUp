@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const Schema = mongoose.Schema;
+
 //User Schema & Model
 
-const schema = {
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -19,9 +21,7 @@ const schema = {
     required: true,
     minlength: 6,
   },
-};
-
-const userSchema = new mongoose.Schema(schema);
+});
 
 //Fire a function before doc saved to db
 userSchema.pre("save", async function (next) {
