@@ -16,12 +16,21 @@ const StatsDetailed = (props) => {
     isCardInfoShown,
     setIsCardInfoShown,
     cardData,
+    handleStatUnits,
   } = props;
 
+  console.log(cardGridData);
   const cards = cardGridData.map((card) => {
     return (
       <GridCard key={card.label}>
-        <StatNumber>{card.value || "-"}</StatNumber>
+        <StatNumber>
+          {typeof card.value === "string"
+            ? card.value === "MG"
+              ? "Muscle Gain"
+              : "Weight Loss"
+            : Math.round(card.value)}{" "}
+          {handleStatUnits(card.label)}
+        </StatNumber>
         <LabelText>{card.label}</LabelText>
         {card.label !== "Current Goal" && (
           <IconDiv onClick={() => handleIClick(card)}>{InfoCircle()}</IconDiv>

@@ -4,6 +4,8 @@ import { Palette } from "../../../constants/Palette.jsx";
 import { backOSvg } from "../../../constants/SVGs.jsx";
 import { useHistory } from "react-router-dom";
 import { UserDataContext } from "../../../contexts/UserDataContext.jsx";
+import Loading from "../../Loader/Loading.jsx";
+import Auxillary from "../../HOC/Auxillary.jsx";
 
 const { primary, text, card } = Palette;
 
@@ -54,15 +56,15 @@ const StatsOverview = ({ handleForwardClick, userStats }) => {
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
-            <Value>{`${userStats.proteinTarget} g`}</Value>
+            <Value>{`${Math.round(userStats.proteinTarget)} g`}</Value>
             <Name>Protein</Name>
           </DataWrap>
           <DataWrap>
-            <Value>{`${userStats.fatsTarget} g`}</Value>
+            <Value>{`${Math.round(userStats.fatsTarget)} g`}</Value>
             <Name>Fats</Name>
           </DataWrap>
           <DataWrap>
-            <Value>{`${userStats.carbsTarget} g`}</Value>
+            <Value>{`${Math.round(userStats.carbsTarget)} g`}</Value>
             <Name>Carbs</Name>
           </DataWrap>
         </CardMiddleRow>

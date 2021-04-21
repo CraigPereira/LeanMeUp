@@ -6,6 +6,8 @@ import { backOSvg } from "../../constants/SVGs.jsx";
 import StatsOverview from "./StatsComponents/StatsOverview.jsx";
 import StatsDetailed from "./StatsComponents/StatsDetailed.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
+import Auxillary from "../HOC/Auxillary";
+import Loading from "../Loader/Loading.jsx";
 
 const { text, background } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
@@ -16,6 +18,7 @@ const StatsContainer = ({ history }) => {
   const [isCardInfoShown, setIsCardInfoShown] = useState(false);
   const [cardData, setCardData] = useState({});
   const [userStats, setUserStats] = useState({});
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     //Fetch data on mount
@@ -24,15 +27,51 @@ const StatsContainer = ({ history }) => {
 
   const fetchData = async () => {
     //Async function to fetch the card data from the db (Not a user's stats)
-    const res = await axios.get("api/cards/");
-    const { cards } = res.data;
-    setCardGridData(cards);
+    try {
+      setIsFetching(true);
+      const res = await axios.get("api/cards/");
+      const { cards } = res.data;
 
-    const response = await axios.get("/api/user/stats");
-    const {
-      data: { stats },
-    } = response;
-    setUserStats(stats);
+      const response = await axios.get("/api/user/stats");
+      const {
+        data: { stats },
+      } = response;
+
+      console.log(stats);
+
+      const {
+        createdAt,
+        updatedAt,
+        user,
+        __v,
+        _id,
+        height,
+        weight,
+        bmi,
+        ...advStats
+      } = stats;
+
+      const cardsTemp = [...cards].sort((a, b) =>
+        a.label.localeCompare(b.label)
+      );
+
+      const sortedStats = Object.entries(advStats).sort();
+      console.log(sortedStats);
+
+      let finalStructure = [];
+
+      finalStructure = cardsTemp.map((card, index) => ({
+        ...card,
+        value: sortedStats[index][1],
+      }));
+
+      setCardGridData(finalStructure);
+      setUserStats(stats);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   const handleBackClick = () => {
@@ -51,38 +90,64 @@ const StatsContainer = ({ history }) => {
     setIsCardInfoShown((prevState) => !prevState);
   };
 
+  const handleStatUnits = (name) => {
+    //Function to determine whether to add 'Kcal', 'g' or nothing after the current stat.
+    let unit = "";
+
+    switch (name) {
+      case "Current Goal":
+        unit = "";
+        break;
+      case "Carbs target":
+      case "Protein target":
+      case "Fats target":
+        unit = "g";
+        break;
+      default:
+        unit = "kcal";
+    }
+    return unit;
+  };
+
   return (
     <MainWrap>
-      <Navbar />
-      <InnerRow isOverview={isOverview}>
-        <Heading>My Stats</Heading>
-        <MiddleRow>
-          {isOverview ? (
-            //Conditionally rendering either the stats overview or the  detailed stats component
-            <StatsOverview
-              handleForwardClick={handleForwardClick}
-              userStats={userStats}
-            />
-          ) : (
-            <StatsDetailed
-              cardGridData={cardGridData}
-              handleIClick={handleIClick}
-              isCardInfoShown={isCardInfoShown}
-              setIsCardInfoShown={setIsCardInfoShown}
-              cardData={cardData}
-            />
-          )}
-        </MiddleRow>
-        <LowerRow isOverview={isOverview}>
-          <BackIconDiv onClick={handleBackClick}>
-            {backOSvg(backStyles)}
-          </BackIconDiv>
-          {!isOverview && (
-            //Render the timestamp only when a user is in the stats detailed component
-            <TimeStamp>Last calculated on 17th January, 2021</TimeStamp>
-          )}
-        </LowerRow>
-      </InnerRow>
+      {!isFetching ? (
+        <Auxillary>
+          <Navbar />
+          <InnerRow isOverview={isOverview}>
+            <Heading>My Stats</Heading>
+            <MiddleRow>
+              {isOverview ? (
+                //Conditionally rendering either the stats overview or the  detailed stats component
+                <StatsOverview
+                  handleForwardClick={handleForwardClick}
+                  userStats={userStats}
+                />
+              ) : (
+                <StatsDetailed
+                  cardGridData={cardGridData}
+                  handleIClick={handleIClick}
+                  isCardInfoShown={isCardInfoShown}
+                  setIsCardInfoShown={setIsCardInfoShown}
+                  cardData={cardData}
+                  handleStatUnits={handleStatUnits}
+                />
+              )}
+            </MiddleRow>
+            <LowerRow isOverview={isOverview}>
+              <BackIconDiv onClick={handleBackClick}>
+                {backOSvg(backStyles)}
+              </BackIconDiv>
+              {!isOverview && (
+                //Render the timestamp only when a user is in the stats detailed component
+                <TimeStamp>Last calculated on 17th January, 2021</TimeStamp>
+              )}
+            </LowerRow>
+          </InnerRow>
+        </Auxillary>
+      ) : (
+        <Loading />
+      )}
     </MainWrap>
   );
 };

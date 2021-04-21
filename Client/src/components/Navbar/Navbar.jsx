@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <OuterContainer>
-      <LeftWrap>
+      <LeftWrap onClick={() => history.push("/")}>
         {LmuBoltSvg(svgStyles)}
         <TextSpan>LEAN ME UP</TextSpan>
       </LeftWrap>
@@ -50,6 +50,7 @@ const LeftWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 `;
 
 const TextSpan = styled.span`

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext.jsx";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -19,10 +19,24 @@ const CalsResult = () => {
     userCarbReq,
     userGoalCals,
     handleSubmit,
+    saveUserStats,
   } = useContext(UserDataContext);
 
+  const [data, setData] = useState({
+    userBmr,
+    userTdee,
+    userProteinGoal,
+    userProteinCals,
+    userRemainingCals,
+    userFatReq,
+    userCarbReq,
+    userGoalCals,
+  });
+
   useEffect(() => {
-    handleSubmit();
+    // handleSubmit();
+    saveUserStats(data);
+    console.log("HEREEEEEEEEE");
   }, []);
 
   const userTargets = [
@@ -82,7 +96,7 @@ const CalsResult = () => {
       <motion.img
         src={require("../../images/healthy-food.png")}
         alt="guy doing an OHP"
-        variants={imgVariants}
+        //variants={imgVariants}
         animate="visible"
       />
     </div>

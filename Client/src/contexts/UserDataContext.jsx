@@ -1,4 +1,6 @@
-import React, { createContext, useState } from "react";
+import axios from "../Axios/baseUrl";
+import React, { createContext, useState, useContext } from "react";
+import { AuthContext } from "./authContext.jsx";
 
 export const UserDataContext = createContext();
 
@@ -31,6 +33,8 @@ const UserDataContextProvider = ({ children }) => {
   const [resultCircle, setResultCircle] = useState(null);
   const [bmiText, setBmiText] = useState(null);
   const [outputNo, setOutputNo] = useState(null);
+
+  const { isAuthenticated } = useContext(AuthContext);
 
   const convertAndCalculate = () => {
     let formulaWeight = weightUnits === "kgs" ? userWeight : userWeight * 0.45;
@@ -159,7 +163,40 @@ const UserDataContextProvider = ({ children }) => {
       : Math.round(tdeeFloat - 300);
   };
 
+  const saveUserStats = async (data) => {
+    console.log("before");
+    console.log(data);
+    if (!isAuthenticated) return;
+
+    // const stats = {
+    //   //use same model, just send relevant data
+    //   user: "",
+    //   weight: userWeight,
+    //   height: userHeightCm || userHeightFt,
+    //   bmi: "",
+    //   bmr: userBmr,
+    //   proteinTarget: userProteinGoal,
+    //   calsFromProtein: userProteinCals,
+    //   tdee: userTdee,
+    //   fatsTarget: userFatReq,
+    //   calsFromFatsAndCarbs: userRemainingCals,
+    //   dailyCalsGoal: userGoalCals,
+    //   carbsTarget: userCarbReq,
+    //   currentGoal: userGoal,
+    // };
+
+    console.log("saveUserStats called");
+
+    // try {
+    //   const res = await axios.post("/api/user/save-stats-adv", { stats });
+    //   console.log(res);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+
   const handleSubmit = (e) => {
+    //The issue is here, while setting state.
     const bmr = calculateBmr();
     setUserBmr(bmr);
     const tdee = calculateTdee(bmr);
@@ -176,6 +213,9 @@ const UserDataContextProvider = ({ children }) => {
     setUserFatReq(fatReq);
     const targetCals = goalCals(tdee);
     setUserGoalCals(targetCals);
+
+    console.log(userBmr);
+    saveUserStats();
   };
 
   return (
@@ -219,6 +259,7 @@ const UserDataContextProvider = ({ children }) => {
         bmiText,
         handleBmiSubmit,
         outputNo,
+        saveUserStats,
       }}
     >
       {children}

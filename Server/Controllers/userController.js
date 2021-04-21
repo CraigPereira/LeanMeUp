@@ -1,9 +1,26 @@
 const UserStats = require("../Models/UserStats");
 
-const stats_post = async (req, res) => {
+const adv_stats_post = async (req, res) => {
   const { stats } = req.body;
-  console.log(stats);
+  const { userId } = req;
+  // console.log(stats);
+
+  stats.user = userId;
+  // stats.user = "6028e42f8d700c42fcda365d";
+  console.log("stats", stats);
+
   try {
+    const prevData = await UserStats.findOne({ user: userId });
+    if (prevData) {
+      console.log("prevData", prevData);
+      //  await UserStats.deleteOne({ user: stats.user });
+      const { bmi, user, ...advStats } = stats;
+      const updated = await UserStats.updateOne({ user: userId }, advStats);
+      return res
+        .status(200)
+        .json({ doc: updated, status: "Update Successful" });
+    }
+
     const userStats = await UserStats.create({ ...stats });
     res.status(201).send("Success: Document Created");
   } catch (err) {
@@ -23,4 +40,4 @@ const stats_get = async (req, res) => {
   }
 };
 
-module.exports = { stats_post, stats_get };
+module.exports = { adv_stats_post, stats_get };
