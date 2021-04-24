@@ -1,6 +1,7 @@
 import axios from "../Axios/baseUrl";
 import React, { createContext, useState, useContext } from "react";
 import { AuthContext } from "./authContext.jsx";
+import { useHistory } from "react-router-dom";
 
 export const UserDataContext = createContext();
 
@@ -35,6 +36,7 @@ const UserDataContextProvider = ({ children }) => {
   const [outputNo, setOutputNo] = useState(null);
 
   const { isAuthenticated } = useContext(AuthContext);
+  const history = useHistory();
 
   const convertAndCalculate = () => {
     let formulaWeight = weightUnits === "kgs" ? userWeight : userWeight * 0.45;
@@ -120,11 +122,11 @@ const UserDataContextProvider = ({ children }) => {
       heightUnits === "cm"
         ? userHeightCm
         : Math.round(userHeightFt * 30.48 + userHeightIn * 2.54);
-    return [formulaWeight, formulaHeight];
+    return { formulaWeight, formulaHeight };
   };
 
   const calculateBmr = () => {
-    const [formulaWeight, formulaHeight] = convertUnits();
+    const { formulaWeight, formulaHeight } = convertUnits();
     return userGender === "M"
       ? (
           66.5 +
@@ -140,20 +142,20 @@ const UserDataContextProvider = ({ children }) => {
         ).toFixed(2);
   };
 
-  const calculateTdee = (bmr) => (bmr * userPAL).toFixed(2);
+  const calculateTdee = (bmr) => parseInt((bmr * userPAL).toFixed(2));
 
   const Protein = () => {
-    const [formulaWeight] = convertUnits();
-    const proteinGoal = Math.round(formulaWeight * 2.2 * 0.75);
-    const proteinCals = proteinGoal * 4;
-    return [proteinGoal, proteinCals];
+    const { formulaWeight } = convertUnits();
+    const proteinGoal = parseInt(Math.round(formulaWeight * 2.2 * 0.75));
+    const proteinCals = parseInt(proteinGoal * 4);
+    return { proteinGoal, proteinCals };
   };
 
   const calsAndGramsFromRemaining = (tdee, proteinCals) => {
-    const remainingCals = ((tdee - proteinCals) / 2).toFixed(2);
-    const carbReq = (remainingCals / 4).toFixed(2);
-    const fatReq = (remainingCals / 9).toFixed(2);
-    return [remainingCals, carbReq, fatReq];
+    const remainingCals = parseInt(((tdee - proteinCals) / 2).toFixed(2));
+    const carbReq = parseInt((remainingCals / 4).toFixed(2));
+    const fatReq = parseInt((remainingCals / 9).toFixed(2));
+    return { remainingCals, carbReq, fatReq };
   };
 
   const goalCals = (tdee) => {
@@ -163,48 +165,78 @@ const UserDataContextProvider = ({ children }) => {
       : Math.round(tdeeFloat - 300);
   };
 
-  const saveUserStats = async (data) => {
-    console.log("before");
-    console.log(data);
+  const convertHeight = (value, convertTo) => {
+    //Function to handle height conversion from Ft/in to cm and vice versa
+    let height = {};
+
+    if (convertTo === "cm") {
+      //Converting Ft In to Cm
+      const { feet, inch } = value;
+      height = parseFloat((feet * 30.48 + inch * 2.54).toFixed(2));
+    }
+
+    if (convertTo === "feet") {
+      let length, feet, inch;
+      length = parseInt(value / 2.54);
+      feet = parseInt(Math.floor(length / 12));
+      inch = parseInt(length - 12 * feet);
+      height.feet = feet;
+      height.inch = inch;
+    }
+
+    return height;
+  };
+
+  const saveUserStats = async () => {
     if (!isAuthenticated) return;
 
-    // const stats = {
-    //   //use same model, just send relevant data
-    //   user: "",
-    //   weight: userWeight,
-    //   height: userHeightCm || userHeightFt,
-    //   bmi: "",
-    //   bmr: userBmr,
-    //   proteinTarget: userProteinGoal,
-    //   calsFromProtein: userProteinCals,
-    //   tdee: userTdee,
-    //   fatsTarget: userFatReq,
-    //   calsFromFatsAndCarbs: userRemainingCals,
-    //   dailyCalsGoal: userGoalCals,
-    //   carbsTarget: userCarbReq,
-    //   currentGoal: userGoal,
-    // };
+    let userHeight = userHeightCm;
+    let heightUnit = "cm";
 
-    console.log("saveUserStats called");
+    if (userHeightFt && userHeightIn) {
+      userHeight = convertHeight(
+        { feet: userHeightFt, inch: userHeightIn },
+        "cm"
+      );
+      heightUnit = "feet";
+    }
 
-    // try {
-    //   const res = await axios.post("/api/user/save-stats-adv", { stats });
-    //   console.log(res);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    const stats = {
+      //use same model, just send relevant data
+      user: "",
+      weight: userWeight,
+      height: userHeight,
+      heightUnit: heightUnit,
+      bmi: "",
+      bmr: userBmr,
+      proteinTarget: userProteinGoal,
+      calsFromProtein: userProteinCals,
+      tdee: userTdee,
+      fatsTarget: userFatReq,
+      calsFromFatsAndCarbs: userRemainingCals,
+      dailyCalsGoal: userGoalCals,
+      carbsTarget: userCarbReq,
+      currentGoal: userGoal,
+    };
+
+    try {
+      const res = await axios.post("/api/user/save-stats-adv", { stats });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSubmit = (e) => {
     //The issue is here, while setting state.
-    const bmr = calculateBmr();
+    const bmr = parseInt(calculateBmr());
     setUserBmr(bmr);
     const tdee = calculateTdee(bmr);
     setUserTdee(tdee);
-    const [proteinGoal, proteinCals] = Protein();
+    const { proteinGoal, proteinCals } = Protein();
     setUserProteinGoal(proteinGoal);
     setUserProteinCals(proteinCals);
-    const [remainingCals, carbReq, fatReq] = calsAndGramsFromRemaining(
+    const { remainingCals, carbReq, fatReq } = calsAndGramsFromRemaining(
       tdee,
       proteinCals
     );
@@ -213,9 +245,11 @@ const UserDataContextProvider = ({ children }) => {
     setUserFatReq(fatReq);
     const targetCals = goalCals(tdee);
     setUserGoalCals(targetCals);
+  };
 
-    console.log(userBmr);
-    saveUserStats();
+  const handleCalculate = (url) => {
+    handleSubmit();
+    history.push(`${url}/result`);
   };
 
   return (
@@ -260,6 +294,9 @@ const UserDataContextProvider = ({ children }) => {
         handleBmiSubmit,
         outputNo,
         saveUserStats,
+        handleCalculate,
+        saveUserStats,
+        convertHeight,
       }}
     >
       {children}

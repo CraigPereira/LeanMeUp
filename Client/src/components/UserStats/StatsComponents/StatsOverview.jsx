@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Palette } from "../../../constants/Palette.jsx";
 import { backOSvg } from "../../../constants/SVGs.jsx";
 import { useHistory } from "react-router-dom";
-import { UserDataContext } from "../../../contexts/UserDataContext.jsx";
-import Loading from "../../Loader/Loading.jsx";
-import Auxillary from "../../HOC/Auxillary.jsx";
 
 const { primary, text, card } = Palette;
 
@@ -15,9 +12,21 @@ const backStyles = {
   transform: "rotate(180)",
 };
 
-const StatsOverview = ({ handleForwardClick, userStats }) => {
+const StatsOverview = (props) => {
+  const { handleForwardClick, userStats, convertHeight, weightUnits } = props;
   const history = useHistory();
-  const { weightUnits, heightUnits } = useContext(UserDataContext);
+
+  let height = (
+    <Value>
+      {userStats.height} {userStats.heightUnit}
+    </Value>
+  );
+
+  if (userStats.heightUnit === "feet") {
+    const units = convertHeight(userStats.height, userStats.heightUnit);
+    height = <Value>{`${units.feet} ft ${units.inch} In`}</Value>;
+  }
+
   return (
     <OuterWrapper>
       <Card>
@@ -33,9 +42,7 @@ const StatsOverview = ({ handleForwardClick, userStats }) => {
             <Name>Weight</Name>
           </DataWrap>
           <DataWrap>
-            <Value>
-              {userStats.height} {heightUnits}
-            </Value>
+            {height}
             <Name>Height</Name>
           </DataWrap>
           <DataWrap>

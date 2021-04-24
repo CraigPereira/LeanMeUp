@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext.jsx";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -18,25 +18,12 @@ const CalsResult = () => {
     userFatReq,
     userCarbReq,
     userGoalCals,
-    handleSubmit,
     saveUserStats,
   } = useContext(UserDataContext);
 
-  const [data, setData] = useState({
-    userBmr,
-    userTdee,
-    userProteinGoal,
-    userProteinCals,
-    userRemainingCals,
-    userFatReq,
-    userCarbReq,
-    userGoalCals,
-  });
-
   useEffect(() => {
-    // handleSubmit();
-    saveUserStats(data);
-    console.log("HEREEEEEEEEE");
+    //Async function with API call invoked here, cause it gets the latest state values here and not within the context file
+    saveUserStats();
   }, []);
 
   const userTargets = [

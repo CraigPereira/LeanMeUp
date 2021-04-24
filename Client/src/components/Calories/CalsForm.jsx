@@ -3,6 +3,7 @@ import { UserDataContext } from "../../contexts/UserDataContext.jsx";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { entryVariants } from "../../Variants/CalsFormVariants";
+import styled from "styled-components";
 
 const CalsForm = (props) => {
   const {
@@ -28,13 +29,13 @@ const CalsForm = (props) => {
     handlePALRadioChange,
     userGoal,
     handleGoalRadioChange,
-    handleSubmit,
+    handleCalculate,
   } = useContext(UserDataContext);
 
   return (
     <div className="cals-form-wrap">
       <motion.form
-        onSubmit={handleSubmit}
+        //onSubmit={handleCalculate}
         variants={entryVariants}
         animate="visible"
         initial="hidden"
@@ -170,9 +171,11 @@ const CalsForm = (props) => {
       </motion.div>
       {((userWeight && userHeightCm && userAge) ||
         (userWeight && userHeightFt && userHeightIn && userAge)) && (
-        <Link to={`${props.match.url}/result`} className="button-styles">
-          Calculate
-        </Link>
+        <BtnWrapper>
+          <CalculateBtn onClick={() => handleCalculate(props.match.url)}>
+            Calculate
+          </CalculateBtn>
+        </BtnWrapper>
       )}
       <motion.div
         className="act-div"
@@ -261,3 +264,21 @@ const CalsForm = (props) => {
 };
 
 export default CalsForm;
+
+const BtnWrapper = styled.div`
+  grid-row: 5 / 6;
+  grid-column: 6 / 7;
+`;
+
+const CalculateBtn = styled.div`
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 41px;
+  margin: 0 auto;
+  padding: 10px 50px;
+  transition: 0.5s;
+  cursor: pointer;
+`;

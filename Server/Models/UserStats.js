@@ -8,6 +8,7 @@ const userStatsSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "user" },
     weight: Number,
     height: Number,
+    heightUnit: String,
     bmi: Number,
     bmr: Number,
     proteinTarget: Number,

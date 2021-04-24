@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "../../Axios/baseUrl";
 import { Palette } from "../../constants/Palette.jsx";
@@ -8,6 +8,7 @@ import StatsDetailed from "./StatsComponents/StatsDetailed.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
 import Auxillary from "../HOC/Auxillary";
 import Loading from "../Loader/Loading.jsx";
+import { UserDataContext } from "../../contexts/UserDataContext.jsx";
 
 const { text, background } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
@@ -19,6 +20,8 @@ const StatsContainer = ({ history }) => {
   const [cardData, setCardData] = useState({});
   const [userStats, setUserStats] = useState({});
   const [isFetching, setIsFetching] = useState(false);
+
+  const { weightUnits, convertHeight } = useContext(UserDataContext);
 
   useEffect(() => {
     //Fetch data on mount
@@ -48,6 +51,7 @@ const StatsContainer = ({ history }) => {
         height,
         weight,
         bmi,
+        heightUnit,
         ...advStats
       } = stats;
 
@@ -66,6 +70,7 @@ const StatsContainer = ({ history }) => {
       }));
 
       setCardGridData(finalStructure);
+      stats.heightUnit = heightUnit;
       setUserStats(stats);
     } catch (err) {
       console.log(err);
@@ -122,6 +127,8 @@ const StatsContainer = ({ history }) => {
                 <StatsOverview
                   handleForwardClick={handleForwardClick}
                   userStats={userStats}
+                  weightUnits={weightUnits}
+                  convertHeight={convertHeight}
                 />
               ) : (
                 <StatsDetailed
