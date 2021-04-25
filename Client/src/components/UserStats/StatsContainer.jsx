@@ -21,7 +21,7 @@ const StatsContainer = ({ history }) => {
   const [userStats, setUserStats] = useState({});
   const [isFetching, setIsFetching] = useState(false);
 
-  const { weightUnits, convertHeight } = useContext(UserDataContext);
+  const { convertHeight } = useContext(UserDataContext);
 
   useEffect(() => {
     //Fetch data on mount
@@ -52,6 +52,7 @@ const StatsContainer = ({ history }) => {
         weight,
         bmi,
         heightUnit,
+        weightUnit,
         ...advStats
       } = stats;
 
@@ -127,7 +128,6 @@ const StatsContainer = ({ history }) => {
                 <StatsOverview
                   handleForwardClick={handleForwardClick}
                   userStats={userStats}
-                  weightUnits={weightUnits}
                   convertHeight={convertHeight}
                 />
               ) : (

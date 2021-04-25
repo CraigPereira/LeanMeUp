@@ -81,12 +81,76 @@ const UserDataContextProvider = ({ children }) => {
     }, 1);
   };
 
+  const convertHeight = (value, convertTo) => {
+    //Function to handle height conversion from Ft/in to cm and vice versa
+    let height = {};
+
+    if (convertTo === "cm") {
+      //Converting Ft In to Cm
+      const { feet, inch } = value;
+      height = parseFloat((feet * 30.48 + inch * 2.54).toFixed(2));
+    }
+
+    if (convertTo === "feet") {
+      let length, feet, inch;
+      length = parseInt(value / 2.54);
+      feet = parseInt(Math.floor(length / 12));
+      inch = parseInt(length - 12 * feet);
+      height.feet = feet;
+      height.inch = inch;
+    }
+
+    return height;
+  };
+
+  const saveBasicStats = async (bmi) => {
+    if (!isAuthenticated) return;
+
+    let userHeight = userHeightCm;
+    let heightUnit = "cm";
+
+    if (userHeightFt && userHeightIn) {
+      userHeight = convertHeight(
+        { feet: userHeightFt, inch: userHeightIn },
+        "cm"
+      );
+      heightUnit = "feet";
+    }
+
+    const stats = {
+      //use same model, just send relevant data
+      user: "",
+      weight: userWeight,
+      weightUnit: weightUnits,
+      height: userHeight,
+      heightUnit: heightUnit,
+      bmi,
+      bmr: "",
+      proteinTarget: "",
+      calsFromProtein: "",
+      tdee: "",
+      fatsTarget: "",
+      calsFromFatsAndCarbs: "",
+      dailyCalsGoal: "",
+      carbsTarget: "",
+      currentGoal: "",
+    };
+
+    try {
+      const res = await axios.post("/api/user/save-stats", { stats });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleBmiSubmit = (e) => {
     e.preventDefault();
     const bmi = convertAndCalculate();
     animateBmi(bmi);
     displayBmiRange(bmi);
     scrollDown();
+    saveBasicStats(bmi);
   };
 
   const changeWeightUnit = (e) => {
@@ -165,28 +229,6 @@ const UserDataContextProvider = ({ children }) => {
       : Math.round(tdeeFloat - 300);
   };
 
-  const convertHeight = (value, convertTo) => {
-    //Function to handle height conversion from Ft/in to cm and vice versa
-    let height = {};
-
-    if (convertTo === "cm") {
-      //Converting Ft In to Cm
-      const { feet, inch } = value;
-      height = parseFloat((feet * 30.48 + inch * 2.54).toFixed(2));
-    }
-
-    if (convertTo === "feet") {
-      let length, feet, inch;
-      length = parseInt(value / 2.54);
-      feet = parseInt(Math.floor(length / 12));
-      inch = parseInt(length - 12 * feet);
-      height.feet = feet;
-      height.inch = inch;
-    }
-
-    return height;
-  };
-
   const saveUserStats = async () => {
     if (!isAuthenticated) return;
 
@@ -205,6 +247,7 @@ const UserDataContextProvider = ({ children }) => {
       //use same model, just send relevant data
       user: "",
       weight: userWeight,
+      weightUnit: weightUnits,
       height: userHeight,
       heightUnit: heightUnit,
       bmi: "",

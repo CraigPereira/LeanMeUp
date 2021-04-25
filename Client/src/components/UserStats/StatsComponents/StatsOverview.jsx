@@ -13,7 +13,7 @@ const backStyles = {
 };
 
 const StatsOverview = (props) => {
-  const { handleForwardClick, userStats, convertHeight, weightUnits } = props;
+  const { handleForwardClick, userStats, convertHeight } = props;
   const history = useHistory();
 
   let height = (
@@ -32,12 +32,12 @@ const StatsOverview = (props) => {
       <Card>
         <CardHeadingRow>
           <span>Basic</span>
-          <Arrow onClick={handleForwardClick}>{backOSvg(backStyles)}</Arrow>
+          <InvisibleSpan>E</InvisibleSpan>
         </CardHeadingRow>
         <CardMiddleRow>
           <DataWrap>
             <Value>
-              {userStats.weight} {weightUnits}
+              {userStats.weight} {userStats.weightUnit}
             </Value>
             <Name>Weight</Name>
           </DataWrap>
@@ -145,4 +145,8 @@ const Name = styled.div`
 
 const Arrow = styled.span`
   cursor: pointer;
+`;
+
+const InvisibleSpan = styled.span`
+  opacity: 0;
 `;

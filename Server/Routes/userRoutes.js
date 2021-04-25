@@ -1,5 +1,9 @@
 const { Router } = require("express");
-const { adv_stats_post, stats_get } = require("../Controllers/userController");
+const {
+  basic_stats_post,
+  adv_stats_post,
+  stats_get,
+} = require("../Controllers/userController");
 
 //New Router instance
 const router = Router();
@@ -7,7 +11,7 @@ const router = Router();
 //Get all stats of the current user
 router.get("/stats", stats_get);
 //Create / Update User's Basic stats
-router.post("/save-stats");
+router.post("/save-stats", basic_stats_post);
 //Create / Update User's Advanced stats
 router.post("/save-stats-adv", adv_stats_post);
 
