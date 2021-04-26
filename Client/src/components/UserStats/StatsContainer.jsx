@@ -20,6 +20,7 @@ const StatsContainer = ({ history }) => {
   const [cardData, setCardData] = useState({});
   const [userStats, setUserStats] = useState({});
   const [isFetching, setIsFetching] = useState(false);
+  const [updatedOn, setUpdatedOn] = useState("");
 
   const { convertHeight } = useContext(UserDataContext);
 
@@ -73,6 +74,7 @@ const StatsContainer = ({ history }) => {
       setCardGridData(finalStructure);
       stats.heightUnit = heightUnit;
       setUserStats(stats);
+      setUpdatedOn(updatedAt);
     } catch (err) {
       console.log(err);
     } finally {
@@ -147,7 +149,7 @@ const StatsContainer = ({ history }) => {
               </BackIconDiv>
               {!isOverview && (
                 //Render the timestamp only when a user is in the stats detailed component
-                <TimeStamp>Last calculated on 17th January, 2021</TimeStamp>
+                <TimeStamp>{`Last calculated on ${updatedOn}`}</TimeStamp>
               )}
             </LowerRow>
           </InnerRow>

@@ -4,7 +4,15 @@ import Navbar from "./Navbar/Navbar.jsx";
 import { Palette } from "../constants/Palette";
 import { LmuBoltSvg, pencilSvg, StatsSvg, backOSvg } from "../constants/SVGs";
 
-const svgStyles = { width: "118px", height: "151px", fill: "#58c2b1" };
+const svgStyles = { width: "118px", height: "151px", fill: "#27debf" };
+
+const boltStyles = {
+  width: "118px",
+  height: "151px",
+  fill: "none",
+  stroke: "#27debf",
+  strokeWidth: "0.4em",
+};
 
 const { primary, text, card, background } = Palette;
 
@@ -15,7 +23,7 @@ const UserDashboard = ({ history }) => {
     {
       id: 1,
       title: "Calculate",
-      svg: LmuBoltSvg(svgStyles),
+      svg: LmuBoltSvg(boltStyles),
       clicked: () => history.push("/dashboard"),
     },
     {

@@ -12,6 +12,14 @@ const { primary, text } = Palette;
 const Navbar = () => {
   const { logOut, userEmail } = useContext(AuthContext);
   const history = useHistory();
+  const {
+    location: { pathname },
+  } = history;
+
+  // const handleClick = () => {
+  //   if (pathname === "/dash") history.push("/");
+  //   history.push("/dash");
+  // };
 
   return (
     <OuterContainer>
@@ -25,7 +33,7 @@ const Navbar = () => {
         </span>
       </CenterWrap>
       <RightWrap>
-        <HomeBtn onClick={() => history.push("/")}>Home</HomeBtn>
+        <HomeBtn onClick={() => history.push("/dash")}>Dashboard</HomeBtn>
         <LogOutBtn onClick={logOut}>Logout</LogOutBtn>
       </RightWrap>
     </OuterContainer>

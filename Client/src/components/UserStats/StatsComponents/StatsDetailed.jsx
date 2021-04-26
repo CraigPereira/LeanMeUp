@@ -83,7 +83,7 @@ const CardCommonStyles = css`
 const InnerWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   flex-direction: row;
   height: 600px;
@@ -102,11 +102,12 @@ const LeftCardDiv = styled.div`
   align-items: center;
   width: 25%;
   height: 100%;
+  margin-right: 40px;
 `;
 
 const LeftCard = styled.div`
   width: 100%;
-  height: 95%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: ${({ isCardInfoShown }) =>
@@ -118,13 +119,10 @@ const LeftCard = styled.div`
 
 const RightCardsGrid = styled.div`
   box-sizing: border-box;
-  display: flex;
-  flex-flow: row wrap;
-  flex-basis: 70%;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
 `;
 
 const GridCard = styled.div`
@@ -134,8 +132,9 @@ const GridCard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 315px;
-  height: 168px;
+  padding: 16px 42px;
+  width: 100%;
+  height: 100%;
   ${CardCommonStyles};
 `;
 
