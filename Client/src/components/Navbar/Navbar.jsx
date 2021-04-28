@@ -4,37 +4,40 @@ import styled from "styled-components";
 import { Palette } from "../../constants/Palette.jsx";
 import { LmuBoltSvg } from "../../constants/SVGs.jsx";
 import { AuthContext } from "../../contexts/authContext";
-
-const svgStyles = { width: "28px", height: "39px", fill: "#58c2b1" };
+import { FiLogOut } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
 
 const { primary, text } = Palette;
+
+const svgStyles = { width: "28px", height: "39px", fill: primary };
 
 const Navbar = () => {
   const { logOut, userEmail } = useContext(AuthContext);
   const history = useHistory();
-  const {
-    location: { pathname },
-  } = history;
-
-  // const handleClick = () => {
-  //   if (pathname === "/dash") history.push("/");
-  //   history.push("/dash");
-  // };
 
   return (
     <OuterContainer>
       <LeftWrap onClick={() => history.push("/")}>
-        {LmuBoltSvg(svgStyles)}
+        {/* {LmuBoltSvg(svgStyles)} */}
+        <LmuBolt />
         <TextSpan>LEAN ME UP</TextSpan>
       </LeftWrap>
       <CenterWrap>
-        <span>
+        <EmailContainer>
           Welcome, <EmailSpan>{` ${userEmail}`}</EmailSpan>
-        </span>
+        </EmailContainer>
       </CenterWrap>
       <RightWrap>
         <HomeBtn onClick={() => history.push("/dash")}>Dashboard</HomeBtn>
         <LogOutBtn onClick={logOut}>Logout</LogOutBtn>
+        <MobileIconsWrap>
+          <IconWrap onClick={() => history.push("/dash")}>
+            <CgProfile color={primary} size="24" />
+          </IconWrap>
+          <IconWrap onClick={logOut}>
+            <FiLogOut color={primary} size="24" />
+          </IconWrap>
+        </MobileIconsWrap>
       </RightWrap>
     </OuterContainer>
   );
@@ -64,6 +67,21 @@ const LeftWrap = styled.div`
 const TextSpan = styled.span`
   font-size: 26px;
   margin-left: 8px;
+
+  @media (max-width: 1024px) {
+    font-size: 20px;
+    margin-left: 4px;
+  }
+`;
+
+const EmailContainer = styled.span`
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const EmailSpan = styled.span`
@@ -86,6 +104,10 @@ const HomeBtn = styled.div`
   padding: 8px 25px;
   border-radius: 23px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const LogOutBtn = styled(HomeBtn)`
@@ -95,5 +117,31 @@ const LogOutBtn = styled(HomeBtn)`
 
   :hover {
     color: ${primary};
+  }
+`;
+
+const MobileIconsWrap = styled.div`
+  display: none;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const IconWrap = styled.span`
+  margin: 0 6px;
+`;
+
+const LmuBolt = styled(LmuBoltSvg)`
+  fill: ${primary};
+  width: 28px;
+  height: 39px;
+
+  @media (max-width: 1024px) {
+    width: 20px;
+    height: 31px;
   }
 `;
