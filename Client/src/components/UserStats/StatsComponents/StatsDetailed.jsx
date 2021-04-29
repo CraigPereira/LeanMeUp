@@ -80,6 +80,22 @@ const CardCommonStyles = css`
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 16%);
 `;
 
+const ScrollStyles = css`
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: ${primary};
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${primary};
+  }
+`;
+
 const InnerWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -88,6 +104,11 @@ const InnerWrapper = styled.div`
   flex-direction: row;
   height: 600px;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 const OuterWrapper = styled.div`
@@ -115,6 +136,10 @@ const LeftCard = styled.div`
   align-items: center;
   color: ${text};
   ${CardCommonStyles};
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const RightCardsGrid = styled.div`
@@ -123,6 +148,21 @@ const RightCardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+  }
+
+  @media (max-width: 620px) {
+    width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: 100px;
+    height: 550px;
+    padding: 20px;
+    ${ScrollStyles};
+  }
 `;
 
 const GridCard = styled.div`
@@ -141,6 +181,10 @@ const GridCard = styled.div`
 const StatNumber = styled.div`
   color: ${primary};
   font-size: 42px;
+
+  @media (max-width: 1024px) {
+    font-size: 24px;
+  }
 `;
 
 const LabelText = styled.div`

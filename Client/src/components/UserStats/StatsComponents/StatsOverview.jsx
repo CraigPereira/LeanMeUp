@@ -93,6 +93,14 @@ const OuterWrapper = styled.div`
   flex-flow: row wrap;
   height: 100%;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    justify-content: space-between;
+  }
+
+  @media (max-width: 744px) {
+    justify-content: center;
+  }
 `;
 
 const Card = styled.div`
@@ -107,6 +115,16 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+
+  @media (max-width: 1024px) {
+    margin-right: 0;
+    width: 300px;
+    height: 165px;
+  }
+
+  @media (max-width: 744px) {
+    margin-bottom: 38px;
+  }
 `;
 
 const CardHeadingRow = styled.div`
@@ -136,6 +154,10 @@ const ReCalculateBtn = styled.div`
 const Value = styled.div`
   color: ${primary};
   font-size: 27px;
+
+  @media (max-width: 1024px) {
+    font-size: 22px;
+  }
 `;
 
 const Name = styled.div`

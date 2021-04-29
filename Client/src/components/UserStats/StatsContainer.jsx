@@ -168,7 +168,8 @@ const MainWrap = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 100%;
   background: ${background};
 `;
 
@@ -189,6 +190,12 @@ const Heading = styled.div`
   justify-content: flex-start;
   font-size: 54px;
   color: ${text};
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+    margin-bottom: 28px;
+    font-size: 32px;
+  }
 `;
 
 const LowerRow = styled.div`
@@ -196,6 +203,10 @@ const LowerRow = styled.div`
   align-items: center;
   justify-content: ${({ isOverview }) =>
     isOverview ? "flex-start" : "space-between"};
+
+  @media (max-width: 744px) {
+    justify-content: center;
+  }
 `;
 
 const MiddleRow = styled.div`
@@ -208,9 +219,17 @@ const TimeStamp = styled.div`
   margin-top: 37px;
   color: ${Palette.text};
   height: auto;
+
+  @media (max-width: 744px) {
+    display: none;
+  }
 `;
 
 const BackIconDiv = styled.div`
   margin-top: 37px;
   cursor: pointer;
+
+  /* @media (max-width: 744px) {
+    margin-top: 0;
+  } */
 `;
