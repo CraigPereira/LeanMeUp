@@ -4,6 +4,7 @@ import { Palette } from "../../../constants/Palette.jsx";
 import { crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
 import Auxillary from "../../HOC/Auxillary.jsx";
 import { renderSvg } from "../../../constants/GlobalFunctions.js";
+import InfoModal from "../../Modals/InfoModal.jsx";
 
 const { primary, text, card } = Palette;
 
@@ -43,6 +44,12 @@ const StatsDetailed = (props) => {
     <OuterWrapper>
       <InnerWrapper>
         {" "}
+        {isCardInfoShown && (
+          <InfoModal
+            setIsCardInfoShown={setIsCardInfoShown}
+            cardData={cardData}
+          />
+        )}
         <LeftCardDiv>
           <LeftCard isCardInfoShown={isCardInfoShown}>
             {isCardInfoShown && cardData?.label ? (
