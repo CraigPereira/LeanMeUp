@@ -3,15 +3,42 @@ import styled from "styled-components";
 import { Palette } from "../../constants/Palette.jsx";
 import { crossOSvg } from "../../constants/SVGs.jsx";
 import { renderSvg } from "../../constants/GlobalFunctions";
+import { motion } from "framer-motion";
 
 const { primary, text, background } = Palette;
 const CrossSvgStyles = { fill: "#fff", width: "20px", cursor: "pointer" };
+
+const containerVariant = {
+  hidden: {
+    y: 500,
+    opacity: 0,
+  },
+  visible: {
+    y: 100,
+    opacity: 1,
+    transition: {
+      stiffness: 130,
+    },
+  },
+  exit: {
+    y: 500,
+    opacity: 0,
+    transition: {
+      stiffness: 130,
+    },
+  },
+};
 
 const InfoModal = (props) => {
   const { setIsCardInfoShown, cardData } = props;
 
   return (
-    <Container>
+    <Container
+      variants={containerVariant}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
       <InnerDiv>
         <CrossIconDiv
           onClick={() => setIsCardInfoShown((prevState) => !prevState)}
@@ -30,26 +57,36 @@ const InfoModal = (props) => {
 
 export default InfoModal;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: none;
 
+  /* @media (max-width: 1024px) {
+    display: block;
+    position: absolute;
+    width: 382px  ;
+    height: 200px;
+    top: 0%;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+    z-index: 30;
+    margin: auto auto;
+  } */
   @media (max-width: 1024px) {
-    box-sizing: border-box;
-    position: fixed;
     display: grid;
     place-items: center;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 99;
-    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 382px;
+    height: 200px;
+    z-index: 30;
+    /* margin: auto auto; */
   }
 `;
 
 const InnerDiv = styled.div`
   width: 382px;
   height: auto;
+  position: absolute;
   display: flex;
   background: ${background};
   border-radius: 16px;

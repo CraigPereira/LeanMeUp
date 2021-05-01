@@ -5,6 +5,8 @@ import { crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
 import Auxillary from "../../HOC/Auxillary.jsx";
 import { renderSvg } from "../../../constants/GlobalFunctions.js";
 import InfoModal from "../../Modals/InfoModal.jsx";
+import Backdrop from "../../Modals/Backdrop.jsx";
+import { AnimatePresence } from "framer-motion";
 
 const { primary, text, card } = Palette;
 
@@ -40,16 +42,22 @@ const StatsDetailed = (props) => {
     );
   });
 
+  const smallerDevice = window.innerWidth < 1024;
+
   return (
     <OuterWrapper>
       <InnerWrapper>
-        {" "}
-        {isCardInfoShown && (
-          <InfoModal
-            setIsCardInfoShown={setIsCardInfoShown}
-            cardData={cardData}
-          />
-        )}
+        <AnimatePresence>
+          {isCardInfoShown && smallerDevice && (
+            <Auxillary>
+              <Backdrop />
+              <InfoModal
+                setIsCardInfoShown={setIsCardInfoShown}
+                cardData={cardData}
+              />
+            </Auxillary>
+          )}
+        </AnimatePresence>
         <LeftCardDiv>
           <LeftCard isCardInfoShown={isCardInfoShown}>
             {isCardInfoShown && cardData?.label ? (
