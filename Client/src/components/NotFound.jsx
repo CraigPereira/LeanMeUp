@@ -42,18 +42,40 @@ const Card = styled.div`
   align-items: center;
   border-radius: 16px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 16%);
+
+  @media (max-width: 1024px) {
+    width: 380px;
+    height: 275px;
+  }
+
+  @media (max-width: 500px) {
+    width: 320px;
+    height: 215px;
+  }
 `;
 
 const ErrorCode = styled.h2`
   font-size: 113px;
   color: ${primary};
   margin: 0;
+
+  @media (max-width: 1024px) {
+    font-size: 92px;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 52px;
+  }
 `;
 
 const TextMsg = styled.p`
   color: ${text};
   margin: 0;
   font-size: 18px;
+
+  @media (max-width: 1024px) {
+    font-size: 14px;
+  }
 `;
 
 const IconContainer = styled.div`
