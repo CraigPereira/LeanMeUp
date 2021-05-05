@@ -4,40 +4,28 @@ import styled from "styled-components";
 import { Palette } from "../../constants/Palette.jsx";
 import { LmuBoltSvg } from "../../constants/SVGs.jsx";
 import { AuthContext } from "../../contexts/authContext";
-import { FiLogOut } from "react-icons/fi";
-import { CgProfile } from "react-icons/cg";
+import RightSideContent from "./RightSideContent.jsx";
 
 const { primary, text } = Palette;
 
-const svgStyles = { width: "28px", height: "39px", fill: primary };
-
 const Navbar = () => {
-  const { logOut, userEmail } = useContext(AuthContext);
+  const { logOut, userEmail, isAuthenticated } = useContext(AuthContext);
   const history = useHistory();
-
   return (
     <OuterContainer>
       <LeftWrap onClick={() => history.push("/")}>
-        {/* {LmuBoltSvg(svgStyles)} */}
         <LmuBolt />
         <TextSpan>LEAN ME UP</TextSpan>
       </LeftWrap>
       <CenterWrap>
-        <EmailContainer>
-          Welcome, <EmailSpan>{` ${userEmail}`}</EmailSpan>
-        </EmailContainer>
+        {isAuthenticated && (
+          <EmailContainer>
+            Welcome, <EmailSpan>{` ${userEmail}`}</EmailSpan>
+          </EmailContainer>
+        )}
       </CenterWrap>
       <RightWrap>
-        <HomeBtn onClick={() => history.push("/dash")}>Dashboard</HomeBtn>
-        <LogOutBtn onClick={logOut}>Logout</LogOutBtn>
-        <MobileIconsWrap>
-          <IconWrap onClick={() => history.push("/dash")}>
-            <CgProfile color={primary} size="24" />
-          </IconWrap>
-          <IconWrap onClick={logOut}>
-            <FiLogOut color={primary} size="24" />
-          </IconWrap>
-        </MobileIconsWrap>
+        <RightSideContent logOut={logOut} isAuthenticated={isAuthenticated} />
       </RightWrap>
     </OuterContainer>
   );
@@ -95,45 +83,6 @@ const CenterWrap = styled.div`
 `;
 
 const RightWrap = styled(LeftWrap)``;
-
-const HomeBtn = styled.div`
-  font-size: 18px;
-  text-decoration: none;
-  color: ${text};
-  border: 2px solid ${primary};
-  padding: 8px 25px;
-  border-radius: 23px;
-  cursor: pointer;
-
-  @media (max-width: 1024px) {
-    display: none;
-  }
-`;
-
-const LogOutBtn = styled(HomeBtn)`
-  border: none;
-  transition: 0.5s;
-  padding: none;
-
-  :hover {
-    color: ${primary};
-  }
-`;
-
-const MobileIconsWrap = styled.div`
-  display: none;
-
-  @media (max-width: 1024px) {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-  }
-`;
-
-const IconWrap = styled.span`
-  margin: 0 6px;
-`;
 
 const LmuBolt = styled(LmuBoltSvg)`
   fill: ${primary};

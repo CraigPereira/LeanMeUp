@@ -1,35 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { paraVariants, spinTransition } from "../Variants/LandingVariants";
 import { Palette } from "../constants/Palette";
-import { AuthContext } from "../contexts/authContext";
-import Auxillary from "./HOC/Auxillary.jsx";
+import Navbar from "./Navbar/Navbar";
 
 const Landing = () => {
-  const { isAuthenticated, logOut } = useContext(AuthContext);
-  const Heading = "Lean me up";
-  const tagLine = `${Heading} simplifies complex nutritional math for you`;
-
+  const tagLine = `Lean me up simplifies complex nutritional math for you`;
   return (
     <LandingOuterWrap>
-      <HeadingText>{Heading}</HeadingText>
-      <UpperRightContainer>
-        {isAuthenticated ? (
-          <Auxillary>
-            <SignUpBtn to="/dash">Dashboard</SignUpBtn>
-            <LoginBtn to="" onClick={logOut}>
-              Logout
-            </LoginBtn>
-          </Auxillary>
-        ) : (
-          <Auxillary>
-            <SignUpBtn to="/signup">Sign up</SignUpBtn>
-            <LoginBtn to="/login">Login</LoginBtn>
-          </Auxillary>
-        )}
-      </UpperRightContainer>
+      <NavbarContainer>
+        <Navbar />
+      </NavbarContainer>
       <Logo
         src={require("../images/LMU-Logo.png")}
         alt="Lean-me-up-logo"
@@ -185,5 +168,13 @@ const LoginBtn = styled(SignUpBtn)`
 
   :hover {
     color: ${primary};
+  }
+`;
+
+const NavbarContainer = styled.div`
+  grid-column: 1 / span 12;
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;

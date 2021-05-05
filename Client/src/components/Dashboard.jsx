@@ -15,14 +15,10 @@ const Dashboard = () => {
       <DashHeading variants={paraVariants} initial="hidden" animate="visible">
         What would you like to do?
       </DashHeading>
-      <DashBmiWrap variants={circle1Variants} animate="visible">
+      <DashBmiWrap>
         <RoundButton to="/bmi">Calculate BMI</RoundButton>
       </DashBmiWrap>
-      <DashCalsWrap
-        className="dash-cals"
-        variants={circle2Variants}
-        animate="visible"
-      >
+      <DashCalsWrap className="dash-cals">
         <RoundButton to="/calories"> Calculate Calories</RoundButton>
       </DashCalsWrap>
       <BackButton to="/">Back</BackButton>

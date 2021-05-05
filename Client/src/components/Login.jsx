@@ -49,7 +49,7 @@ const Login = ({ history }) => {
       if (errors.password) setErrorTxt(errors.password);
       setTimeout(() => {
         setErrorTxt("");
-      }, 5000);
+      }, 10000);
     }
   };
 
@@ -142,6 +142,14 @@ const LeftSide = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 40%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
 `;
 
 const RightSide = styled.div`
@@ -149,24 +157,31 @@ const RightSide = styled.div`
   align-items: flex-start;
   justify-content: center;
   width: 60%;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const Card = styled.div`
   box-sizing: border-box;
   width: 401px;
-  height: ${({ errors }) => {
-    return Object.keys(errors).length === 1
-      ? "465px"
-      : Object.keys(errors).length === 2
-      ? "490px"
-      : "450px";
-  }};
+  height: auto;
+  padding: 32px;
   background: ${card};
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 16px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 16%);
+
+  @media (max-width: 1024px) {
+    width: 370px;
+  }
+
+  @media (max-width: 500px) {
+    width: 75%;
+  }
 `;
 
 const LoginForm = styled.form`
@@ -179,6 +194,16 @@ const Heading = styled.div`
   font-size: 63px;
   color: ${text};
   margin-bottom: 84px;
+
+  @media (max-width: 1024px) {
+    font-size: 53px;
+    margin-bottom: 54px;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 32px;
+    margin-bottom: 34px;
+  }
 `;
 
 const CardHeading = styled.div`
@@ -186,7 +211,16 @@ const CardHeading = styled.div`
   justify-content: flex-start;
   font-size: 26px;
   color: ${text};
-  margin: 40px 0;
+  margin: 0px 0px 40px;
+
+  @media (max-width: 1024px) {
+    font-size: 24px;
+    margin: 0px 0px 34px;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 18px;
+  }
 `;
 
 const UnderLineInput = styled.input`
@@ -210,6 +244,11 @@ const UnderLineInput = styled.input`
   ::placeholder {
     color: ${placeholder};
   }
+
+  @media (max-width: 1024px) {
+    width: 229px;
+    margin: 26px 0;
+  }
 `;
 
 const LoginButton = styled.button`
@@ -223,6 +262,10 @@ const LoginButton = styled.button`
   outline: none;
   padding: 11px 90px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    margin-top: 1.6em;
+  }
 `;
 
 const BackIconDiv = styled.div`
@@ -253,4 +296,8 @@ const PassIconDiv = styled.div`
   cursor: pointer;
   top: ${({ top }) => top};
   right: 5%;
+
+  @media (max-width: 1024px) {
+    right: 6%;
+  }
 `;
