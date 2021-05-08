@@ -1,11 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Palette } from "../../../constants/Palette.jsx";
-import { crossOSvg, InfoCircle } from "../../../constants/SVGs.jsx";
-import Auxillary from "../../HOC/Auxillary.jsx";
-import { renderSvg } from "../../../constants/GlobalFunctions.js";
-import InfoModal from "../../Modals/InfoModal.jsx";
-import Backdrop from "../../Modals/Backdrop.jsx";
+import { Palette } from "../../../../constants/Palette.jsx";
+import { crossOSvg, InfoCircle } from "../../../../constants/SVGs.jsx";
+import Auxillary from "../../../../components/HOC/Auxillary.jsx";
+import { renderSvg } from "../../../../constants/GlobalFunctions";
+import InfoModal from "../../../../components/Modals/InfoModal.jsx";
+import Backdrop from "../../../../components/Modals/Backdrop.jsx";
 import { AnimatePresence } from "framer-motion";
 
 const { primary, text, card } = Palette;
@@ -75,7 +75,7 @@ const StatsDetailed = (props) => {
               </Auxillary>
             ) : (
               <Logo
-                src={require("../../../images/LMU-Logo.png")}
+                src={require("../../../../images/LMU-Logo.png")}
                 alt="Lean-me-up-logo"
               />
             )}

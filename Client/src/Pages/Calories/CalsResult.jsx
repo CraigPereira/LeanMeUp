@@ -7,6 +7,9 @@ import {
   paraVariants,
   imgVariants,
 } from "../../Variants/CalsResultVariants";
+import Navbar from "../../components/Navbar/Navbar.jsx";
+import styled from "styled-components";
+import { Palette } from "../../constants/Palette.jsx";
 
 const CalsResult = () => {
   const {
@@ -64,8 +67,9 @@ const CalsResult = () => {
 
   return (
     <div className="cals-result-wrap">
-      {" "}
-      <span></span>
+      <NavContainer>
+        <Navbar />
+      </NavContainer>
       <motion.ul variants={listVariants} animate="visible" initial="hidden">
         {userCalorieAndMacroData}
       </motion.ul>
@@ -77,7 +81,7 @@ const CalsResult = () => {
       >
         {relatedInfo}
       </motion.div>
-      <Link to="/dashboard" className="button-styles">
+      <Link to="/features" className="button-styles">
         Back
       </Link>
       <motion.img
@@ -91,3 +95,15 @@ const CalsResult = () => {
 };
 
 export default CalsResult;
+
+const NavContainer = styled.div`
+  grid-column: 1 / span 12;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* span {
+    color: ${Palette.text};
+  } */
+`;

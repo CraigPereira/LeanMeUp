@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Palette } from "../../../constants/Palette.jsx";
-import { backOSvg } from "../../../constants/SVGs.jsx";
+import { Palette } from "../../../../constants/Palette.jsx";
+import { backOSvg } from "../../../../constants/SVGs.jsx";
 import { useHistory } from "react-router-dom";
 
 const { primary, text, card } = Palette;

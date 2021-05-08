@@ -5,6 +5,7 @@ import { Palette } from "../../constants/Palette";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { displayVariants, formVariants } from "../../Variants/BmiFormVariants";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 const BmiForm = () => {
   const {
@@ -30,6 +31,7 @@ const BmiForm = () => {
 
   return (
     <OuterWrapper>
+      <Navbar />
       <BmiFormWrap>
         <StyledBmiForm
           onSubmit={handleBmiSubmit}
@@ -122,7 +124,7 @@ const BmiForm = () => {
             <BmiFeedbackPara>{bmiText}</BmiFeedbackPara>
           </BmiDisplayRight>
         )}
-        {outputNo && <BackBtn to="/dashboard">Back</BackBtn>}
+        {outputNo && <BackBtn to="/features">Back</BackBtn>}
       </BmiFormWrap>
     </OuterWrapper>
   );

@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import Navbar from "./Navbar/Navbar.jsx";
-import { Palette } from "../constants/Palette";
-import { LmuBoltSvg, StatsSvg, backOSvg } from "../constants/SVGs";
+import Navbar from "../../components/Navbar/Navbar.jsx";
+import { Palette } from "../../constants/Palette.jsx";
+import { LmuBoltSvg, StatsSvg, backOSvg } from "../../constants/SVGs.jsx";
 
 const { primary, text, card, background } = Palette;
 
@@ -14,7 +14,7 @@ const UserDashboard = ({ history }) => {
       id: 1,
       title: "Calculate",
       svg: <BoltSvg />,
-      clicked: () => history.push("/dashboard"),
+      clicked: () => history.push("/features"),
     },
     {
       id: 2,
@@ -132,7 +132,6 @@ const Card = styled.div`
   }
 
   @media (max-width: 600px) {
-    margin-right: 0;
     height: 180px;
     width: 180px;
   }

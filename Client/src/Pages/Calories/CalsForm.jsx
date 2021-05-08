@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { entryVariants } from "../../Variants/CalsFormVariants";
 import styled from "styled-components";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 const CalsForm = (props) => {
   const {
@@ -34,6 +35,9 @@ const CalsForm = (props) => {
 
   return (
     <div className="cals-form-wrap">
+      <NavContainer>
+        <Navbar />
+      </NavContainer>
       <motion.form
         //onSubmit={handleCalculate}
         variants={entryVariants}
@@ -281,4 +285,12 @@ const CalculateBtn = styled.div`
   padding: 10px 50px;
   transition: 0.5s;
   cursor: pointer;
+`;
+
+const NavContainer = styled.div`
+  grid-column: 1 / span 12;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;

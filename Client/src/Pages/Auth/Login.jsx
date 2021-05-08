@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import axios from "../Axios/baseUrl";
-import { Palette } from "../constants/Palette";
+import axios from "../../Axios/baseUrl";
+import { Palette } from "../../constants/Palette.jsx";
 import { Redirect } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import { LmuBoltSvg, backOSvg } from "../constants/SVGs";
+import { LmuBoltSvg, backOSvg } from "../../constants/SVGs";
 import { useForm } from "react-hook-form";
-import Loading from "./Loader/Loading.jsx";
+import Loading from "../../components/Loader/Loading";
 import {
   emailValidation,
   passValidation,
-} from "../constants/ValidationObjects";
-import { AuthContext } from "../contexts/authContext";
+} from "../../constants/ValidationObjects";
+import { AuthContext } from "../../contexts/authContext.jsx";
 
 const { primary, text, card, background, placeholder } = Palette;
 
