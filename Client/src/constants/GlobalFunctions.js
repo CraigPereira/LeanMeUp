@@ -33,3 +33,34 @@ export const renderSvg = (name) => {
       return null;
   }
 };
+
+export const returnDate = (dateStr) => {
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const date = new Date(dateStr);
+  let dateSuffix = "th";
+  let dateVal = +date.getDate();
+
+  if (dateVal == 1) dateSuffix = "st";
+  else if (dateVal == 2) dateSuffix = "nd";
+  else if (dateVal == 3) dateSuffix = "rd";
+
+  const timeStamp = `Last Calculated on ${date.getDate()}${dateSuffix} ${
+    months[date.getMonth()]
+  }, ${date.getFullYear()}`;
+
+  return timeStamp;
+};

@@ -158,6 +158,13 @@ const InnerRow = styled.div`
   box-sizing: border-box;
   width: 100vw;
   height: 800px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+  }
 `;
 
 const LeftSide = styled.div`
@@ -165,6 +172,10 @@ const LeftSide = styled.div`
   align-items: center;
   justify-content: center;
   width: 40%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const RightSide = styled.div`
@@ -177,21 +188,22 @@ const RightSide = styled.div`
 const Card = styled.div`
   box-sizing: border-box;
   width: 401px;
-  height: ${({ errors }) => {
-    return Object.keys(errors).length === 1
-      ? "525px"
-      : Object.keys(errors).length === 2
-      ? "530px"
-      : Object.keys(errors).length === 3
-      ? "560px"
-      : "510px";
-  }};
+  height: auto;
+  padding: 32px;
   background: ${card};
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 16px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 16%);
+
+  @media (max-width: 1024px) {
+    width: 370px;
+  }
+
+  @media (max-width: 500px) {
+    width: 75%;
+  }
 `;
 
 const SignupForm = styled.form`
@@ -204,13 +216,28 @@ const QuoteWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 1024px) {
+    width: 370px;
+    margin-bottom: 28px;
+  }
 `;
+
 const Quote = styled.div`
   box-sizing: border-box;
   font-size: 30px;
   margin-top: calc(4em - 15px);
   color: ${text};
   font-style: italic;
+
+  @media (max-width: 1024px) {
+    margin-bottom: 18px;
+    font-size: 22px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const AuthorName = styled(Quote)`
@@ -220,6 +247,14 @@ const AuthorName = styled(Quote)`
   margin: 0;
   margin-right: 4em;
   color: ${primary};
+
+  @media (max-width: 1024px) {
+    margin-right: 0;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const SignupButton = styled.button`
@@ -233,6 +268,11 @@ const SignupButton = styled.button`
   outline: none;
   padding: 11px 90px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    margin-top: 1em;
+    font-size: 18px;
+  }
 `;
 
 const BoltWrap = styled.div`
@@ -251,6 +291,15 @@ const Heading = styled.div`
   font-size: 26px;
   color: ${text};
   margin: 40px 0;
+
+  @media (max-width: 1024px) {
+    font-size: 22px;
+    margin: 0px 0px 34px;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 18px;
+  }
 `;
 
 const UnderLineInput = styled.input`
@@ -273,6 +322,12 @@ const UnderLineInput = styled.input`
 
   ::placeholder {
     color: ${placeholder};
+    font-size: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 229px;
+    margin: 26px 0;
   }
 `;
 
@@ -292,4 +347,8 @@ const PassIconDiv = styled.div`
   cursor: pointer;
   top: ${({ top }) => top};
   right: 5%;
+
+  @media (max-width: 1024px) {
+    right: 12%;
+  }
 `;

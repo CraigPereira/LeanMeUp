@@ -44,7 +44,9 @@ const LandingPage = () => {
             </ContentWrapper>
           </LeftSection>
           {randomBool ? (
-            <RightSection>{FoodSvg()}</RightSection>
+            <RightSection>
+              <StyledFoodSvg />
+            </RightSection>
           ) : (
             <RightSection>
               <SvgWrap>{ProteinIsometricSVG()}</SvgWrap>
@@ -68,17 +70,33 @@ const InnerContainer = styled.div`
   padding: 0 5%;
   display: flex;
   height: auto;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 
 const LeftSection = styled.div`
   width: 40%;
   height: 90%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const RightSection = styled.div`
   position: relative;
   width: 60%;
   height: 90%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const PrimarySpan = styled.div`
@@ -91,19 +109,46 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 40px;
+
+  @media (max-width: 1500px) {
+    margin-top: 12px;
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 0px;
+    align-items: center;
+  }
 `;
 
 const HeadingCopy = styled.div`
   font-size: 80px;
-  color: ${({ isPrimary }) => (isPrimary ? primary : text)};
+  color: ${text};
   line-height: 1.3em;
   margin-bottom: 22px;
+
+  @media (max-width: 1024px) {
+    font-size: 56px;
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 46px;
+  }
 `;
 
 const OneLinerCopy = styled.div`
   font-size: 24px;
   color: ${text};
   margin-bottom: 47px;
+
+  @media (max-width: 1024px) {
+    font-size: 18px;
+    margin-bottom: 17px;
+  }
+
+  @media (max-width: 500px) {
+    text-align: center;
+  }
 `;
 
 const CTAButton = styled.button`
@@ -118,7 +163,8 @@ const CTAButton = styled.button`
   cursor: pointer;
 
   @media (max-width: 1024px) {
-    margin-top: 1.6em;
+    margin-top: 16px;
+    font-size: 18px;
   }
 `;
 
@@ -132,4 +178,39 @@ const SvgWrap = styled.div`
   position: absolute;
   right: 5%;
   top: 30px;
+
+  @media (max-width: 1500px) {
+    right: 20%;
+    svg {
+      width: 600px;
+      height: 500px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    svg {
+      width: 500px;
+      height: 400px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    right: -35px;
+    svg {
+      width: 470px;
+      height: 370px;
+    }
+  }
+`;
+
+const StyledFoodSvg = styled(FoodSvg)`
+  @media (max-width: 1500px) {
+    width: 700px;
+    height: 500px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 600px;
+    height: 400px;
+  }
 `;

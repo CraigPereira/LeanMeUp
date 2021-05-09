@@ -9,6 +9,7 @@ import Navbar from "../../../components/Navbar/Navbar.jsx";
 import Auxillary from "../../../components/HOC/Auxillary.jsx";
 import Loading from "../../../components/Loader/Loading.jsx";
 import { UserDataContext } from "../../../contexts/UserDataContext.jsx";
+import { returnDate } from "../../../constants/GlobalFunctions";
 
 const { text, background } = Palette;
 const backStyles = { fill: `${text}`, width: "27px", cursor: "pointer" };
@@ -41,7 +42,7 @@ const StatsContainer = ({ history }) => {
         data: { stats },
       } = response;
 
-      console.log(stats);
+      // console.log(stats);
 
       const {
         createdAt,
@@ -57,12 +58,14 @@ const StatsContainer = ({ history }) => {
         ...advStats
       } = stats;
 
+      const calculatedOn = returnDate(updatedAt);
+
       const cardsTemp = [...cards].sort((a, b) =>
         a.label.localeCompare(b.label)
       );
 
       const sortedStats = Object.entries(advStats).sort();
-      console.log(sortedStats);
+      // console.log(sortedStats);
 
       let finalStructure = [];
 
@@ -74,7 +77,7 @@ const StatsContainer = ({ history }) => {
       setCardGridData(finalStructure);
       stats.heightUnit = heightUnit;
       setUserStats(stats);
-      setUpdatedOn(updatedAt);
+      setUpdatedOn(calculatedOn);
     } catch (err) {
       console.log(err);
     } finally {
@@ -149,7 +152,7 @@ const StatsContainer = ({ history }) => {
               </BackIconDiv>
               {!isOverview && (
                 //Render the timestamp only when a user is in the stats detailed component
-                <TimeStamp>{`Last calculated on ${updatedOn}`}</TimeStamp>
+                <TimeStamp>{updatedOn}</TimeStamp>
               )}
             </LowerRow>
           </InnerRow>
