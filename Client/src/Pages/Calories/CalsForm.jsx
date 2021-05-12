@@ -270,6 +270,7 @@ const CalsForm = (props) => {
 export default CalsForm;
 
 const BtnWrapper = styled.div`
+  order: 3;
   grid-row: 5 / 6;
   grid-column: 6 / 7;
 `;

@@ -9,6 +9,8 @@ import {
   FoodSvg,
   ProteinIsometricSVG,
 } from "../constants/SVGs.jsx";
+import { motion } from "framer-motion";
+import { CopyTextVariant, SvgVariants } from "../Variants/LandingVariants.jsx";
 
 const { primary, text } = Palette;
 
@@ -44,11 +46,19 @@ const LandingPage = () => {
             </ContentWrapper>
           </LeftSection>
           {randomBool ? (
-            <RightSection>
+            <RightSection
+              variants={SvgVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <StyledFoodSvg />
             </RightSection>
           ) : (
-            <RightSection>
+            <RightSection
+              variants={SvgVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <SvgWrap>{ProteinIsometricSVG()}</SvgWrap>
             </RightSection>
           )}
@@ -87,7 +97,7 @@ const LeftSection = styled.div`
   }
 `;
 
-const RightSection = styled.div`
+const RightSection = styled(motion.div)`
   position: relative;
   width: 60%;
   height: 90%;

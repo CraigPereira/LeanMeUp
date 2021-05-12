@@ -27,8 +27,7 @@ const handleErrors = (err) => {
 //Creating JWT
 const createToken = (id) => {
   const secretKey = process.env.JWT_SECRET;
-  const expiresIn = process.env.JWT_EXPIRES_IN;
-  return jwt.sign({ id }, secretKey, { expiresIn });
+  return jwt.sign({ id }, secretKey, { expiresIn: "7d" });
 };
 
 const signup_post = async (req, res) => {

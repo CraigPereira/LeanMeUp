@@ -2,11 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext.jsx";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  listVariants,
-  paraVariants,
-  imgVariants,
-} from "../../Variants/CalsResultVariants";
+import { listVariants, paraVariants } from "../../Variants/CalsResultVariants";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import styled from "styled-components";
 import { Palette } from "../../constants/Palette.jsx";

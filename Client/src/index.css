@@ -249,6 +249,13 @@ code {
   border-bottom: 2px solid var(--highlight-color);
 }
 
+/* Hide arrows on input type number */
+.cals-form-wrap input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 .cals-form-wrap form button {
   background: none;
   border: none;

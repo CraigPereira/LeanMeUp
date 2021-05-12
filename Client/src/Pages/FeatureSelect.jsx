@@ -6,41 +6,9 @@ import { Palette } from "../constants/Palette";
 import { BmiIcon, MacrosIcon } from "../constants/SVGs";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
+import { cardOneVariant, cardTwoVariant } from "../Variants/CardVariants.jsx";
 
 const { primary, card, background, text } = Palette;
-
-// const cardOneVariant = {
-//   hidden: {
-//     y: 100,
-//     opacity: 0,
-//   },
-//   visible: {
-//     y: 0,
-//     opacity: 1,
-//     transition: {
-//       delay: 0.2,
-//       type: "spring",
-//       stiffness: 130,
-//     },
-//   },
-// };
-
-// const cardTwoVariant = {
-//   hidden: {
-//     y: 100,
-//     opacity: 0,
-//   },
-//   visible: {
-//     y: 0,
-//     opacity: 1,
-//     transition: {
-//       duration: 2.5,
-//       //   delay: 0.4,
-//       type: "spring",
-//       stiffness: 130,
-//     },
-//   },
-// };
 
 const FeatureSelect = () => {
   const history = useHistory();
@@ -48,15 +16,13 @@ const FeatureSelect = () => {
   const cardData = [
     {
       title: "Calculate BMI",
-      desc:
-        "The BMI is a convenient rule of thumb used to broadly categorize a person as underweight, normal weight, overweight, or obese based on tissue mass ",
+      desc: "The BMI is a convenient rule of thumb used to broadly categorize a person as underweight, normal weight, overweight, or obese based on tissue mass ",
       icon: <StopWatch />,
       url: "/bmi",
     },
     {
       title: "Breakdown Macros",
-      desc:
-        "Macronutrients are nutrients that provide calories or energy and are required in large amounts to maintain body functions and carry out the activities of daily life.  ",
+      desc: "Macronutrients are nutrients that provide calories or energy and are required in large amounts to maintain body functions and carry out the activities of daily life.  ",
       icon: <SmartWatch />,
       url: "/calories",
     },
@@ -67,7 +33,7 @@ const FeatureSelect = () => {
       <Card
         key={data.title}
         onClick={() => history.push(data.url)}
-        //  variants={data.url === "/bmi" ? cardOneVariant : cardTwoVariant}
+        variants={data.url === "/bmi" ? cardOneVariant : cardTwoVariant}
         initial="hidden"
         animate="visible"
       >
@@ -166,10 +132,9 @@ const Card = styled(motion.div)`
   display: grid;
   place-items: center;
   border: 1px solid ${background};
-  /* transition: 0.5s; */
 
   :hover {
-    /* border-bottom: 1px solid ${primary}; */
+    border-bottom: 1px solid ${primary};
   }
 
   @media (max-width: 1024px) {

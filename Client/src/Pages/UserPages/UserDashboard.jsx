@@ -3,6 +3,11 @@ import styled, { css } from "styled-components";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import { Palette } from "../../constants/Palette.jsx";
 import { LmuBoltSvg, StatsSvg, backOSvg } from "../../constants/SVGs.jsx";
+import { motion } from "framer-motion";
+import {
+  cardOneVariant,
+  cardTwoVariant,
+} from "../../Variants/CardVariants.jsx";
 
 const { primary, text, card, background } = Palette;
 
@@ -25,7 +30,13 @@ const UserDashboard = ({ history }) => {
   ];
 
   const Cards = data.map((item) => (
-    <Card key={item.id} onClick={item.clicked}>
+    <Card
+      key={item.id}
+      onClick={item.clicked}
+      variants={item.id === 1 ? cardOneVariant : cardTwoVariant}
+      initial="hidden"
+      animate="visible"
+    >
       <CardInner>
         <span>{item.svg}</span>
         <Title>{item.title}</Title>
@@ -107,7 +118,7 @@ const CardsRow = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   box-sizing: border-box;
   border-radius: 16px;
   height: 320px;
@@ -119,10 +130,9 @@ const Card = styled.div`
   display: grid;
   place-items: center;
   border: 1px solid ${background};
-  transition: 0.5s;
 
   :hover {
-    border: 1px solid ${primary};
+    border-bottom: 1px solid ${primary};
   }
 
   @media (max-width: 1024px) {
