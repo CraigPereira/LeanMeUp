@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Lean me up backend",
   "main": "Server.js",
+  "engines": {
+    "node": "14.15.1",
+    "npm": "6.14.8"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node Server.js",
