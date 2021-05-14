@@ -23,18 +23,20 @@ app.use(cookieParser());
 // app.use(
 //   cors({
 //     credentials: true,
-//     origin: ["https://lean-me-up.netlify.app/", "http://localhost:3000"],
+//     origin: ["https://lean-me-up.netlify.app", "http://localhost:3000"],
 //   })
 // );
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://lean-me-up.netlify.app"); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+var whitelist = ["https://lean-me-up.netlify.app", "http://localhost:3000"];
+var corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) callback(null, true);
+    else callback(new Error("Not allowed by CORS"));
+  },
+};
+
+app.use(cors(corsOptions));
 
 const Listen = () => {
   //Listen for Requests.

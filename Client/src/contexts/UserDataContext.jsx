@@ -138,7 +138,6 @@ const UserDataContextProvider = ({ children }) => {
 
     try {
       const res = await axios.post("/api/user/save-stats", { stats });
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -264,7 +263,6 @@ const UserDataContextProvider = ({ children }) => {
 
     try {
       const res = await axios.post("/api/user/save-stats-adv", { stats });
-      console.log(res);
     } catch (err) {
       console.log(err);
     }

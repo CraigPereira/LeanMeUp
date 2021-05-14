@@ -22,7 +22,6 @@ const StatsDetailed = (props) => {
     handleStatUnits,
   } = props;
 
-  console.log(cardGridData);
   const cards = cardGridData.map((card) => {
     return (
       <GridCard key={card.label}>

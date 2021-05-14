@@ -42,8 +42,6 @@ const StatsContainer = ({ history }) => {
         data: { stats },
       } = response;
 
-      // console.log(stats);
-
       const {
         createdAt,
         updatedAt,
@@ -65,7 +63,6 @@ const StatsContainer = ({ history }) => {
       );
 
       const sortedStats = Object.entries(advStats).sort();
-      // console.log(sortedStats);
 
       let finalStructure = [];
 
