@@ -28,8 +28,8 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, "build")));
-// app.use(express.static(path.join("../Client/build")));
+// app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static("../Client/build"));
 
 const Listen = () => {
   //Listen for Requests.
