@@ -9,6 +9,7 @@ const quoteRoutes = require("./Routes/quoteRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const cardRoutes = require("./Routes/cardRoutes");
 const { requireAuth } = require("./Middleware/authMiddleware");
+const path = require("path");
 
 //Initialize Express app
 const app = express();
@@ -25,6 +26,11 @@ app.use(
     credentials: true,
     origin: ["https://lean-me-up.netlify.app", "http://localhost:3000"],
   })
+);
+
+app.use(express.static(path.join(__dirname, "build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname + "/build/index.html"))
 );
 
 const Listen = () => {
