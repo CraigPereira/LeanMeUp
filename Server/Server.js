@@ -20,23 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Cors to prevent CORS errors & enable saving cookies
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: ["https://lean-me-up.netlify.app", "http://localhost:3000"],
-//   })
-// );
-
-var whitelist = ["https://lean-me-up.netlify.app", "http://localhost:3000"];
-var corsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) callback(null, true);
-    else callback(new Error("Not allowed by CORS"));
-  },
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["https://lean-me-up.netlify.app", "http://localhost:3000"],
+  })
+);
 
 const Listen = () => {
   //Listen for Requests.
