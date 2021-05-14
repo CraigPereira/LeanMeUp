@@ -20,12 +20,21 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Cors to prevent CORS errors & enable saving cookies
-app.use(
-  cors({
-    credentials: true,
-    origin: ["https://lean-me-up.netlify.app/", "http://localhost:3000"],
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ["https://lean-me-up.netlify.app/", "http://localhost:3000"],
+//   })
+// );
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://lean-me-up.netlify.app/"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 const Listen = () => {
   //Listen for Requests.
